@@ -8,6 +8,12 @@
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
+###> symfony/webpack-encore-bundle ###
+/node_modules
+/yarn-error.log
+###< symfony/idea ###
+###> symfony/idea ###
+/.idea/*
 
 ###> phpunit/phpunit ###
 /phpunit.xml
