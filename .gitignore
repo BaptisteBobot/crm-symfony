@@ -13,7 +13,7 @@
 /yarn-error.log
 ###< symfony/idea ###
 ###> symfony/idea ###
-/.idea/*
+.idea/*
 
 ###> phpunit/phpunit ###
 /phpunit.xml
