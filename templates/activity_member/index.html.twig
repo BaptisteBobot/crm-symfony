@@ -1,0 +1,25 @@
+{# templates/members/activities.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Activités du membre{% endblock %}
+
+{% block body %}
+    <h1>Activités du membre</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom de l'activité</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for activity in activities %}
+                <tr>
+                    <td>{{ activity.getId() }}</td>
+                    <td>{{ activity.getName() }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
