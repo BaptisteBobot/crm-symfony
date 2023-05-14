@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\ActivityMember;
+use App\Entity\ActivityUser;
 use App\Entity\Member;
 use App\Entity\Activity;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -30,7 +30,7 @@ class ActivityMemberType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => ActivityMember::class,
+            'data_class' => ActivityUser::class,
         ]);
     }
 }

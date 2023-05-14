@@ -2,26 +2,28 @@
 
 namespace App\Repository;
 
-use App\Entity\ActivityMember;
+use App\Entity\Activity;
+use App\Entity\ActivityUser;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<ActivityMember>
+ * @extends ServiceEntityRepository<ActivityUser>
  *
- * @method ActivityMember|null find($id, $lockMode = null, $lockVersion = null)
- * @method ActivityMember|null findOneBy(array $criteria, array $orderBy = null)
- * @method ActivityMember[]    findAll()
- * @method ActivityMember[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method ActivityUser|null find($id, $lockMode = null, $lockVersion = null)
+ * @method ActivityUser|null findOneBy(array $criteria, array $orderBy = null)
+ * @method ActivityUser[]    findAll()
+ * @method ActivityUser[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ActivityMemberRepository extends ServiceEntityRepository
+class ActivityUserRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, ActivityMember::class);
+        parent::__construct($registry, ActivityUser::class);
     }
 
-    public function save(ActivityMember $entity, bool $flush = false): void
+    public function save(ActivityUser $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +32,7 @@ class ActivityMemberRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(ActivityMember $entity, bool $flush = false): void
+    public function remove(ActivityUser $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -38,16 +40,17 @@ class ActivityMemberRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-    public function findByMemberId(int $memberId): array
+    public function findByUserId(int $userId): array
     {
         return $this->createQueryBuilder('am')
-            ->andWhere('am.member = :memberId')
-            ->setParameter('memberId', $memberId)
+            ->andWhere('am.user = :userId')
+            ->setParameter('userId', $userId)
             ->getQuery()
             ->getResult();
     }
+
 //    /**
-//     * @return ActivityMember[] Returns an array of ActivityMember objects
+//     * @return ActivityUser[] Returns an array of ActivityUser objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -61,7 +64,7 @@ class ActivityMemberRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?ActivityMember
+//    public function findOneBySomeField($value): ?ActivityUser
 //    {
 //        return $this->createQueryBuilder('a')
 //            ->andWhere('a.exampleField = :val')
