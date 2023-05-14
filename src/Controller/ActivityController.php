@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse; // Ajoutez cette ligne
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/home')]
+#[Route('/admin')]
 class ActivityController extends AbstractController
 {
     /**
