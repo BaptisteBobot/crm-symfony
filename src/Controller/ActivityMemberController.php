@@ -1,40 +1,51 @@
 <?php
 // src/Controller/ActivityMemberController.php
+
 namespace App\Controller;
 
-use App\Repository\ActivityMemberRepository;
+use App\Entity\Activity;
+use App\Entity\ActivityRegistration;
+use App\Repository\ActivityRegistrationRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-// class ActivityMemberController extends AbstractController
-// {
-//     #[Route('/activity-member', name: 'activity_member')]
-//     public function showActivityMembers(ActivityMemberRepository $activityMemberRepository): Response
-//     {
-//         $activityMembers = $activityMemberRepository->findAll();
-
-//         return $this->render('activity_member/index.html.twig', [
-//             'activity_members' => $activityMembers,
-//         ]);
-//     }
-// }
-// src/Controller/ActivityMemberController.php
-#[Route('/home')]
 class ActivityMemberController extends AbstractController
 {
-    #[Route('/activity-member', name: 'activity_member')]
-    public function showActivityMembers(ActivityMemberRepository $activityMemberRepository, int $memberId): Response
+    #[Route('/register/{id}', name: 'activity_member_register')]
+    public function register(Request $request, Activity $activity, EntityManagerInterface $entityManager): Response
     {
-        $activityMembers = $activityMemberRepository->findByMemberId($memberId);
+        // Récupérer l'utilisateur actuellement connecté (vous devez avoir un système d'authentification en place)
+        $user = $this->getUser();
 
-        $activities = [];
-        foreach ($activityMembers as $activityMember) {
-            $activities[] = $activityMember->getActivity();
+        $activityRegistration = new ActivityRegistration();
+        $activityRegistration->setMember($user);
+        $activityRegistration->setActivity($activity);
+
+        $entityManager->persist($activityRegistration);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('activity_show', ['id' => $activity->getId()]);
+    }
+
+    #[Route('/unregister/{id}', name: 'activity_member_unregister')]
+    public function unregister(Request $request, Activity $activity, EntityManagerInterface $entityManager): Response
+    {
+        // Récupérer l'utilisateur actuellement connecté (vous devez avoir un système d'authentification en place)
+        $user = $this->getUser();
+
+        $activityRegistration = $entityManager->getRepository(ActivityRegistration::class)->findOneBy([
+            'member' => $user,
+            'activity' => $activity
+        ]);
+
+        if ($activityRegistration) {
+            $entityManager->remove($activityRegistration);
+            $entityManager->flush();
         }
 
-        return $this->render('members/activities.html.twig', [
-            'activities' => $activities,
-        ]);
+        return $this->redirectToRoute('activity_show', ['id' => $activity->getId()]);
     }
 }

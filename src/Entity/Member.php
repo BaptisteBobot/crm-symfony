@@ -46,8 +46,37 @@ class Member
     public function __construct()
     {
         $this->expenses = new ArrayCollection();
+        $this->activityMembers = new ArrayCollection();
+    }
+    /**
+     * @return Collection|ActivityMember[]
+     */
+    public function getActivityMembers(): Collection
+    {
+        return $this->activityMembers;
     }
 
+    public function addActivityMember(ActivityMember $activityMember): self
+    {
+        if (!$this->activityMembers->contains($activityMember)) {
+            $this->activityMembers[] = $activityMember;
+            $activityMember->setMember($this);
+        }
+
+        return $this;
+    }
+
+    public function removeActivityMember(ActivityMember $activityMember): self
+    {
+        if ($this->activityMembers->removeElement($activityMember)) {
+            // set the owning side to null (unless already changed)
+            if ($activityMember->getMember() === $this) {
+                $activityMember->setMember(null);
+            }
+        }
+
+        return $this;
+    }
     public function getId(): ?int
     {
         return $this->id;
@@ -113,10 +142,6 @@ class Member
         return $this;
     }
 
-    public function getActivityMembers(): ?string
-    {
-        return $this->activityMembers;
-    }
 
     public function setActivityMembers(string $activityMembers): self
     {
