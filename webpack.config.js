@@ -7,6 +7,10 @@ if (!Encore.isRuntimeEnvironmentConfigured()) {
 }
 
 Encore
+    .addEntry('fullcalendar', [
+    './node_modules/@fullcalendar/core/main.js',
+    './node_modules/@fullcalendar/daygrid/main.js'
+    ])
     // directory where compiled assets will be stored
     .setOutputPath('public/build/')
     // public path used by the web server to access the output path

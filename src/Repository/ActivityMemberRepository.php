@@ -38,7 +38,14 @@ class ActivityMemberRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-
+    public function findByMemberId(int $memberId): array
+    {
+        return $this->createQueryBuilder('am')
+            ->andWhere('am.member = :memberId')
+            ->setParameter('memberId', $memberId)
+            ->getQuery()
+            ->getResult();
+    }
 //    /**
 //     * @return ActivityMember[] Returns an array of ActivityMember objects
 //     */
