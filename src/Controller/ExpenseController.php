@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @property ExpenseRepository $expenseRepository
  */
-#[Route('/expense')]
+#[Route('/home')]
 class ExpenseController extends AbstractController
 {
     #[Route('/expense', name: 'app_expense')]

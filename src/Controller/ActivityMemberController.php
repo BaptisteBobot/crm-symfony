@@ -20,6 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 //     }
 // }
 // src/Controller/ActivityMemberController.php
+#[Route('/home')]
 class ActivityMemberController extends AbstractController
 {
     #[Route('/activity-member', name: 'activity_member')]
