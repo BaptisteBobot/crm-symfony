@@ -2,22 +2,22 @@
 
 namespace App\Entity;
 
-use App\Repository\ActivityMemberRepository;
+use App\Repository\ActivityUserRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ActivityMemberRepository::class)]
-class ActivityMember
+#[ORM\Entity(repositoryClass: ActivityUserRepository::class)]
+class ActivityUser
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: Activity::class, inversedBy: "inscriptions")]
+    #[ORM\ManyToOne(targetEntity: Activity::class, inversedBy: "ActivityUsers")]
     private ?Activity $activity = null;
 
-    #[ORM\ManyToOne(targetEntity: Member::class, inversedBy: "inscriptions")]
-    private ?Member $member = null;
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "ActivityUsers")]
+    private ?User $user = null;
 
     public function getId(): ?int
     {
@@ -36,14 +36,14 @@ class ActivityMember
         return $this;
     }
 
-    public function getMember(): ?Member
+    public function getUser(): ?User
     {
-        return $this->member;
+        return $this->user;
     }
 
-    public function setMember(?Member $member): self
+    public function setUser(?User $user): self
     {
-        $this->member = $member;
+        $this->user = $user;
 
         return $this;
     }

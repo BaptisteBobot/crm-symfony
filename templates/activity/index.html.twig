@@ -98,7 +98,7 @@
 		<div class="burger" onclick="document.getElementById('menu').classList.toggle('show')">&#9776;</div>
 		<ul>
 			<li><a href="{{ path('activity_index') }}">Activités/événements</a></li>
-			<li><a href="{{ path('member_index') }}">Membres</a></li>
+			<li><a href="{{ path('user_index') }}">Utilisateurs</a></li>
 			<li><a href="{{ path('app_survey') }}">Questionnaires</a></li>
 			<li><a href="{{ path('app_bde_web_site') }}">Site</a></li>
 			<li><a href="{{ path('activity_calendar') }}">Calendrier</a></li>
@@ -127,8 +127,8 @@
 				</p>
 				<a href="{{ path('activity_edit', {'id': activity.id}) }}" class="btn btn-primary">Modifier</a>
 				<a href="{{ path('activity_delete', {'id': activity.id}) }}" class="btn btn-danger">Supprimer</a>
-				<button class="btn btn-success" onclick="register({{ activity.id }})">S'inscrire</button>
-				<button class="btn btn-warning" onclick="unregister({{ activity.id }})">Se désinscrire</button>
+				<a href="{{ path('activity_user_register', {'id': activity.id}) }}" class="btn btn-primary">S'inscrire</a>
+				<a href="{{ path('activity_user_unregister', {'id': activity.id}) }}" class="btn btn-primary">Se désinscrire</a>
 				<span id="status-{{ activity.id }}"></span>
 			</div>
 		</div>

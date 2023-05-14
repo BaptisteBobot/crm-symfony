@@ -29,38 +29,38 @@ class Activity
     private ?string $location = null;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ActivityMember", mappedBy="activity")
+     * @ORM\OneToMany(targetEntity="App\Entity\ActivityUser", mappedBy="activity")
      */
-    private $activityMembers;
+    private $activityUsers;
 
     public function __construct()
     {
-        $this->activityMembers = new ArrayCollection();
+        $this->activityUsers = new ArrayCollection();
     }
     /**
-     * @return Collection|ActivityMember[]
+     * @return Collection|ActivityUser[]
      */
-    public function getActivityMembers(): Collection
+    public function getActivityUsers(): Collection
     {
-        return $this->activityMembers;
+        return $this->activityUsers;
     }
 
-    public function addActivityMember(ActivityMember $activityMember): self
+    public function addActivityUser(ActivityUser $activityUser): self
     {
-        if (!$this->activityMembers->contains($activityMember)) {
-            $this->activityMembers[] = $activityMember;
-            $activityMember->setActivity($this);
+        if (!$this->activityUsers->contains($activityUser)) {
+            $this->activityUsers[] = $activityUser;
+            $activityUser->setActivity($this);
         }
 
         return $this;
     }
 
-    public function removeActivityMember(ActivityMember $activityMember): self
+    public function removeActivityUser(ActivityUser $activityUser): self
     {
-        if ($this->activityMembers->removeElement($activityMember)) {
+        if ($this->activityUsers->removeElement($activityUser)) {
             // set the owning side to null (unless already changed)
-            if ($activityMember->getActivity() === $this) {
-                $activityMember->setActivity(null);
+            if ($activityUser->getActivity() === $this) {
+                $activityUser->setActivity(null);
             }
         }
 
@@ -120,8 +120,8 @@ class Activity
     }
 
 
-    public function setActivityMembers($activityMembers)
+    public function setActivityUsers($activityUsers)
     {
-        $this->activityMembers = $activityMembers;
+        $this->activityUsers = $activityUsers;
     }
 }

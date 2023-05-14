@@ -11,6 +11,6 @@ home:
     path: /home
     defaults:
         _controller: App\Controller\HomeController::home
-member:
-    resource: '../src/Controller/MemberController.php'
+user:
+    resource: '../src/Controller/UserController.php'
     type: annotation

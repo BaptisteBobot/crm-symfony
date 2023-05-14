@@ -28,7 +28,7 @@ class Expense
 
     #[ORM\ManyToOne(inversedBy: 'expenses')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Member $member = null;
+    private ?User $user = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $receipt = null;
@@ -86,14 +86,14 @@ class Expense
         return $this;
     }
 
-    public function getMember(): ?Member
+    public function getUser(): ?User
     {
-        return $this->member;
+        return $this->user;
     }
 
-    public function setMember(?Member $member): self
+    public function setUser(?User $user): self
     {
-        $this->member = $member;
+        $this->user = $user;
 
         return $this;
     }

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -33,9 +35,93 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $firstName = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $lastName = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $phone = null;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Expense::class)]
+    private Collection $expenses;
+
+    public function __construct()
+    {
+        $this->expenses = new ArrayCollection();
+        $this->activityUsers = new ArrayCollection();
+    }
+
+    /**
+     * @return Collection|ActivityUser[]
+     */
+    public function getActivityUsers(): Collection
+    {
+        return $this->activityUsers;
+    }
+
+    public function addActivityUser(ActivityUser $activityUser): self
+    {
+        if (!$this->activityUsers->contains($activityUser)) {
+            $this->activityUsers[] = $activityUser;
+            $activityUser->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeActivityUser(ActivityUser $activityUser): self
+    {
+        if ($this->activityUsers->removeElement($activityUser)) {
+            // set the owning side to null (unless already changed)
+            if ($activityUser->getUser() === $this) {
+                $activityUser->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getFirstName(): ?string
+    {
+        return $this->firstName;
+    }
+
+    public function setFirstName(string $firstName): self
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(string $phone): self
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    public function setLastName(string $lastName): self
+    {
+        $this->lastName = $lastName;
+
+        return $this;
     }
 
     public function getEmail(): ?string
@@ -111,6 +197,43 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function setActivityUsers(Collection $activityUsers): self
+    {
+        $this->activityUsers = $activityUsers;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Expense>
+     */
+    public function getExpenses(): Collection
+    {
+        return $this->expenses;
+    }
+
+    public function addExpense(Expense $expense): self
+    {
+        if (!$this->expenses->contains($expense)) {
+            $this->expenses->add($expense);
+            $expense->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExpense(Expense $expense): self
+    {
+        if ($this->expenses->removeElement($expense)) {
+            // set the owning side to null (unless already changed)
+            if ($expense->getUser() === $this) {
+                $expense->setUser(null);
+            }
+        }
 
         return $this;
     }

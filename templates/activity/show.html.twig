@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Menu vertical responsive</title>
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+		}
+
+		#menu {
+			position: fixed;
+			top: 0;
+			left: 0;
+			height: 100vh;
+			width: 18rem;
+			background-color: #002f66;
+			color: #fff;
+			font-size: 1.2rem;
+			overflow: hidden;
+			z-index: 1;
+			transition: all 0.3s ease;
+		}
+
+		#menu ul {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+		}
+
+		#menu li {
+			padding: 1rem;
+			border-bottom: 1px solid #555;
+		}
+
+		#menu li:hover {
+			background-color: #555;
+		}
+
+		#menu a {
+			color: #fff;
+			text-decoration: none;
+		}
+
+		@media only screen and (max-width: 768px) {
+			#menu {
+				position: relative;
+				width: 100%;
+				height: auto;
+			}
+
+			#menu ul {
+				display: none;
+			}
+
+			#menu.show ul {
+				display: block;
+			}
+
+			#menu li {
+				display: block;
+				border-bottom: none;
+			}
+
+			#menu .burger {
+				display: block;
+				padding: 1rem;
+				background-color: #002f66;
+				cursor: pointer;
+			}
+		}
+
+		@media only screen and (min-width: 768px) {
+			#menu .burger {
+				display: none;
+			}
+
+			.content {
+				display: flex;
+				flex-wrap: wrap;
+			}
+
+			#menu {
+				flex-basis: 18rem;
+				width: 18rem;
+			}
+
+			#content {
+				flex-grow: 1;
+			}
+		}
+	</style>
+</head>
+<body>
+	<div id="menu">
+		<div class="burger" onclick="document.getElementById('menu').classList.toggle('show')">&#9776;</div>
+		<ul>
+			<li><a href="{{ path('activity_index') }}">Activités/événements</a></li>
+			<li><a href="{{ path('user_index') }}">Utilisateurs</a></li>
+			<li><a href="{{ path('app_survey') }}">Questionnaires</a></li>
+			<li><a href="{{ path('app_bde_web_site') }}">Site</a></li>
+			<li><a href="{{ path('activity_calendar') }}">Calendrier</a></li>
+		</ul>
+	</div>
+	<div id="content" class="content">
+		{% block title %}Liste des activités{% endblock %}
+
+		{% block body %}
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+<h1>Liste des activités</h1>
+
+<div class="row">
+	{% for activityUser in activities %}
+            <div class="col-md-4 mb-4">
+                <div class="card" style="width: 18rem;">
+                    {# Ici, vous pouvez ajouter une image si vous en avez une pour chaque activité #}
+                    {# <img src="{{ activityUser.activity.image }}" class="card-img-top" alt="{{ activityUser.activity.name }}"> #}
+                    <img src="https://picsum.photos/200/200" alt="Image aléatoire">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ activityUser.activity.name }}</h5>
+                        <p class="card-text">
+                            Date de début: {{ activityUser.activity.startDate|date('d/m/Y H:i') }}<br>
+                            Date de fin: {{ activityUser.activity.endDate|date('d/m/Y H:i') }}<br>
+                            Lieu: {{ activityUser.activity.location }}
+                        </p>
+                        <a href="{{ path('activity_edit', {'id': activityUser.activity.id}) }}" class="btn btn-primary">Modifier</a>
+                        <a href="{{ path('activity_delete', {'id': activityUser.activity.id}) }}" class="btn btn-danger">Supprimer</a>
+                        <a href="{{ path('activity_user_unregister', {'id': activityUser.activity.id}) }}" class="btn btn-primary">Se désinscrire</a>
+                        <span id="status-{{ activityUser.activity.id }}"></span>
+                    </div>
+                </div>
+            </div>
+	{% endfor %}
+</div>
+
+{% endblock %}
+</div>
