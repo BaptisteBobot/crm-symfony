@@ -40,7 +40,7 @@ class SecurityController extends AbstractController
     #[Route("/logout", name: 'app_logout')]
     public function logout()
     {
-        // Cette méthode ne fait rien, elle est juste là pour déclencher la déconnexion
+        return $this->redirectToRoute('app_home');
     }
 
 }
