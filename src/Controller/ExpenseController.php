@@ -15,10 +15,10 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @property ExpenseRepository $expenseRepository
  */
-#[Route('/home')]
+#[Route('/admin/expenses')]
 class ExpenseController extends AbstractController
 {
-    #[Route('/expense', name: 'app_expense')]
+    #[Route('/', name: 'app_expense')]
     public function index(): Response
     {
         return $this->render('expense/index.html.twig', [
