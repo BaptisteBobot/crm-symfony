@@ -37,6 +37,12 @@ class MemberController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Get the currently logged-in user
+            $user = $this->getUser();
+
+            // Associate the member with the logged-in user
+            $member->setUser($user);
+
             $this->entityManager->persist($member);
             $this->entityManager->flush();
 

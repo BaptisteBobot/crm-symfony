@@ -2,31 +2,22 @@
 
 namespace App\Entity;
 
+use App\Repository\ActivityMemberRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\ActivityMemberRepository")
- */
+#[ORM\Entity(repositoryClass: ActivityMemberRepository::class)]
 class ActivityMember
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Activity", inversedBy="activityMembers")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $activity;
+    #[ORM\ManyToOne(targetEntity: Activity::class, inversedBy: "inscriptions")]
+    private ?Activity $activity = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Member", inversedBy="activityMembers")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $member;
+    #[ORM\ManyToOne(targetEntity: Member::class, inversedBy: "inscriptions")]
+    private ?Member $member = null;
 
     public function getId(): ?int
     {

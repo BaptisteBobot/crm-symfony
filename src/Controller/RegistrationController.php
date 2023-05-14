@@ -15,6 +15,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
+use App\Entity\Member;
 
 class RegistrationController extends AbstractController
 {
@@ -41,9 +42,15 @@ class RegistrationController extends AbstractController
                 )
             );
             //add role_user to user
-            $user->setRoles(['ROLE_USER']);
+            $user->setRoles(['ROLE_ADMIN']);
+
+            $member = new Member();
+            $member->setUser($user);
+            $member->setEmail($user->getEmail());
+            $member->setRole(true);
 
             $entityManager->persist($user);
+            $entityManager->persist($member);
             $entityManager->flush();
 
             // generate a signed url and email it to the user

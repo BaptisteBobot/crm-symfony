@@ -15,16 +15,16 @@ class Member
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $firstName = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $lastName = null;
 
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $phone = null;
 
     #[ORM\Column]
@@ -39,6 +39,10 @@ class Member
      * @ORM\OneToMany(targetEntity="App\Entity\SurveyResponse", mappedBy="member")
      */
     private $surveyResponses;
+
+    #[ORM\OneToOne(inversedBy: 'User')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
 
     #[ORM\OneToMany(mappedBy: 'member', targetEntity: Expense::class)]
     private Collection $expenses;
@@ -143,7 +147,7 @@ class Member
     }
 
 
-    public function setActivityMembers(string $activityMembers): self
+    public function setActivityMembers(Collection $activityMembers): self
     {
         $this->activityMembers = $activityMembers;
 
@@ -176,6 +180,18 @@ class Member
                 $expense->setMember(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

@@ -147,7 +147,7 @@
 	});
 
 function register(activityId) {
-    fetch(`/register/${activityId}`, {
+    fetch(`/home/registerActivity/${activityId}`, {
         method: 'POST',
         headers: {
             'X-Requested-With': 'XMLHttpRequest',
@@ -163,7 +163,7 @@ function register(activityId) {
 }
 
 function unregister(activityId) {
-    fetch(`/unregister/${activityId}`, {
+    fetch(`/home/registerActivity/unregister/${activityId}`, {
         method: 'POST',
         headers: {
             'X-Requested-With': 'XMLHttpRequest',
