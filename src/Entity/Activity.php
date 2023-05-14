@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\ActivityRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: ActivityRepository::class)]
 class Activity
@@ -31,6 +33,39 @@ class Activity
      */
     private $activityMembers;
 
+    public function __construct()
+    {
+        $this->activityMembers = new ArrayCollection();
+    }
+    /**
+     * @return Collection|ActivityMember[]
+     */
+    public function getActivityMembers(): Collection
+    {
+        return $this->activityMembers;
+    }
+
+    public function addActivityMember(ActivityMember $activityMember): self
+    {
+        if (!$this->activityMembers->contains($activityMember)) {
+            $this->activityMembers[] = $activityMember;
+            $activityMember->setActivity($this);
+        }
+
+        return $this;
+    }
+
+    public function removeActivityMember(ActivityMember $activityMember): self
+    {
+        if ($this->activityMembers->removeElement($activityMember)) {
+            // set the owning side to null (unless already changed)
+            if ($activityMember->getActivity() === $this) {
+                $activityMember->setActivity(null);
+            }
+        }
+
+        return $this;
+    }
     public function getId(): ?int
     {
         return $this->id;
@@ -84,11 +119,6 @@ class Activity
         return $this;
     }
 
-    //getters and setters for activityMembers
-    public function getActivityMembers()
-    {
-        return $this->activityMembers;
-    }
 
     public function setActivityMembers($activityMembers)
     {

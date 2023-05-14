@@ -1,0 +1,19 @@
+{# templates/activity_show.html.twig #}
+
+{# ... autres éléments de la page ... #}
+
+{% if app.user %}
+    {% set isRegistered = false %}
+    {% for registration in activity.activityRegistrations %}
+        {% if registration.member.id == app.user.id %}
+            {% set isRegistered = true %}
+            {% break %}
+        {% endif %}
+    {% endfor %}
+
+    {% if isRegistered %}
+        <a href="{{ path('activity_member_unregister', {'id': activity.id}) }}" class="btn btn-danger">Se désinscrire</a>
+    {% else %}
+        <a href="{{ path('activity_member_register', {'id': activity.id}) }}" class="btn btn-success">S'inscrire</a>
+    {% endif %}
+{% endif %}
