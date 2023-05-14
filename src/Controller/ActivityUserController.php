@@ -53,7 +53,7 @@ class ActivityUserController extends AbstractController
         return $this->redirectToRoute('activity_show', ['id' => $activity->getId()]);
     }
 
-    #[Route('/activities/{id}', name: 'activity_show')]
+    #[Route('/activities/registered/{id}', name: 'activity_show')]
     public function show(Activity $activity, ActivityUserRepository $activityUserRepository, ActivityRepository $activityRepository): Response
     {
         // Récupérer l'utilisateur actuellement connecté (vous devez avoir un système d'authentification en place)
