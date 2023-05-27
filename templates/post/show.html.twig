@@ -1,13 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{% endblock %}
+{% block title %}Détails du Post{% endblock %}
 
 {% block body %}
-<div class="container">
-    {# <h1>{{ post.title }}</h1> #}
-    <p>{{ post.content }}</p>
+    <div class="container">
+        <h1>Détails du Post</h1>
 
-    <a href="{{ path('post_edit', { 'id': post.id }) }}" class="btn btn-primary">Modifier</a>
-    <a href="{{ path('post_index') }}" class="btn btn-secondary">Retour à la liste</a>
-</div>
+        {# <h3>{{ post.title }}</h3> #}
+        <p>{{ post.content }}</p>
+
+        <h4>Commentaires :</h4>
+        {% for comment in post.comments %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <p class="card-text">{{ comment.content }}</p>
+                </div>
+            </div>
+        {% else %}
+            <p>Aucun commentaire.</p>
+        {% endfor %}
+
+        <a href="{{ path('post_edit', { 'id': post.id }) }}" class="btn btn-primary">Modifier</a>
+        <a href="{{ path('post_index') }}" class="btn btn-secondary">Retour à la liste</a>
+    </div>
 {% endblock %}

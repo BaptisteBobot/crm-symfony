@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+
 /**
  * @Route("/post", name="post_")
  */
@@ -69,20 +71,26 @@ class PostController extends AbstractController
     /**
      * @Route("/{id}/edit", name="edit", requirements={"id"="\d+"})
      */
-    public function edit(Request $request, EntityManagerInterface $entityManager, Post $post): Response
+    public function edit(Request $request, EntityManagerInterface $entityManager, Post $post,Security $security): Response
     {
-        $form = $this->createForm(PostType::class, $post);
-        $form->handleRequest($request);
+         // Vérifier si l'utilisateur a le rôle "admin" ou s'il est le créateur du post
+    $user = $security->getUser();
+    if (!$user || (!$this->isGranted('ROLE_ADMIN') && $post->getCreatedBy() !== $user)) {
+        throw new AccessDeniedException('Vous n\'êtes pas autorisé à modifier ce post.');
+    }
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+    $form = $this->createForm(PostType::class, $post);
+    $form->handleRequest($request);
 
-            return $this->redirectToRoute('post_show', ['id' => $post->getId()]);
-        }
+    if ($form->isSubmitted() && $form->isValid()) {
+        $entityManager->flush();
 
-        return $this->render('post/edit.html.twig', [
-            'form' => $form->createView(),
-        ]);
+        return $this->redirectToRoute('post_show', ['id' => $post->getId()]);
+    }
+
+    return $this->render('post/edit.html.twig', [
+        'form' => $form->createView(),
+    ]);
     }
 
     /**
