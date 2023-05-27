@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{# {% block title %}Modifier {{ post.title }}{% endblock %} #}
+
+{% block body %}
+<div class="container">
+    <h1>Modifier </h1>
+
+    {{ include('post/_form.html.twig') }}
+
+    {# <a href="{{ path('post_show', { 'id': post.id }) }}" class="btn btn-secondary">Retour</a> #}
+</div>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+<div class="container">
+    {# <h1>{{ post.title }}</h1> #}
+    <p>{{ post.content }}</p>
+
+    <a href="{{ path('post_edit', { 'id': post.id }) }}" class="btn btn-primary">Modifier</a>
+    <a href="{{ path('post_index') }}" class="btn btn-secondary">Retour à la liste</a>
+</div>
+{% endblock %}
