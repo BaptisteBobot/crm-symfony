@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier le Post{% endblock %}
+
+{% block body %}
+    <h1>Modifier le Post</h1>
+
+    {% if app.user and (is_granted('ROLE_ADMIN') or post.createdBy == app.user) %}
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+        {{ form_end(form) }}
+    {% else %}
+        <div class="alert alert-danger">Vous n'êtes pas autorisé à modifier ce post.</div>
+    {% endif %}
+{% endblock %}

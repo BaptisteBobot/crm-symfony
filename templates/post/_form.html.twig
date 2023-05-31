@@ -1,0 +1,15 @@
+{{ form_start(form) }}
+    <div class="form-group">
+        {{ form_label(form.content, 'Contenu', {'label_attr': {'class': 'form-control-label'}}) }}
+        {{ form_widget(form.content, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.content) }}
+    </div>
+    <div class="form-group">
+        {{ form_label(form.category, 'Categorie', {'label_attr': {'class': 'form-control-label'}}) }}
+        {{ form_widget(form.category, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.category) }}
+    </div>
+    <button type="submit" class="btn btn-success">
+        {{ button_label|default('Enregistrer') }}
+    </button>
+{{ form_end(form) }}

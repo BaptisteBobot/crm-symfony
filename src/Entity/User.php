@@ -44,6 +44,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $phone = null;
 
+    #[ORM\OneToMany(targetEntity: Category::class, mappedBy: 'createdBy')]
+    private Collection $categories;
+
+    #[ORM\OneToMany(targetEntity: Post::class, mappedBy: 'createdBy')]
+    private Collection $posts;
+
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'createdBy')]
+    private Collection $comments;
+
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Expense::class)]
     private Collection $expenses;
 
@@ -51,6 +60,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->expenses = new ArrayCollection();
         $this->activityUsers = new ArrayCollection();
+        $this->categories = new ArrayCollection();
+        $this->posts = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     /**
@@ -236,5 +248,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+     /**
+     * @return Collection|Category[]
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    /**
+     * @return Collection|Post[]
+     */
+    public function getPosts(): Collection
+    {
+        return $this->posts;
+    }
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
     }
 }
