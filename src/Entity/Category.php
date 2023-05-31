@@ -26,9 +26,13 @@ class Category
     #[ORM\OneToMany(targetEntity: Post::class, mappedBy: "category")]
     private Collection $posts;
 
+    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Revision::class)]
+    private Collection $revisions;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
+        $this->revisions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -67,4 +71,40 @@ class Category
     {
         return $this->posts;
     }
+
+    /**
+     * @return Collection<int, Revision>
+     */
+    public function getRevisions(): Collection
+    {
+        return $this->revisions;
+    }
+
+    public function addRevision(Revision $revision): self
+    {
+        if (!$this->revisions->contains($revision)) {
+            $this->revisions->add($revision);
+            $revision->setCategory($this);  // Changed setCategoryId() to setCategory()
+        }
+
+        return $this;
+    }
+
+    public function removeRevision(Revision $revision): self
+    {
+        if ($this->revisions->removeElement($revision)) {
+            // set the owning side to null (unless already changed)
+            if ($revision->getCategory() === $this) {  // Changed getCategoryId() to getCategory()
+                $revision->setCategory(null);  // Changed setCategoryId() to setCategory()
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->name;
+    }
+
 }

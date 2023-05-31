@@ -46,7 +46,10 @@ class DashboardController extends AbstractDashboardController
         yield  MenuItem::section('Users');
         yield MenuItem::linkToCrud('Users', 'fa fa-user', UserCrudController::getEntityFqcn());
         yield MenuItem::linkToCrud('Activities', 'fa fa-calendar', ActivityCrudController::getEntityFqcn());
-        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home'); 
-       
+        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
+
+        yield  MenuItem::section('Révision');
+        yield MenuItem::linkToCrud('Listes', 'fa fa-user', RevisionCrudController::getEntityFqcn());
+
     }
 }

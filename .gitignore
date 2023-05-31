@@ -170,7 +170,7 @@ Temporary Items
 !bin/console
 !bin/symfony_requirements
 /vendor/
-
+vendor/*
 # Assets and user uploads
 /web/bundles/
 /web/uploads/
