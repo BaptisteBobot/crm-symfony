@@ -2,7 +2,7 @@
 
 {% block title %}Modifier le Post{% endblock %}
 
-{% block body %}
+{% block content %}
     <h1>Modifier le Post</h1>
 
     {% if app.user and (is_granted('ROLE_ADMIN') or post.createdBy == app.user) %}

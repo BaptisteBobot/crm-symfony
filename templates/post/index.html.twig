@@ -2,7 +2,7 @@
 
 {% block title %}Liste des Posts{% endblock %}
 
-{% block body %}
+{% block content %}
 <div class="container">
     <h1>Liste des Posts</h1>
 
@@ -10,8 +10,8 @@
 
     <div class="row">
         {% for post in posts %}
-        <div class="col-md-4">
-            <div class="card mb-4">
+        <div class="col-md-12">
+            <div class="card mb-4 w-100">
                 <div class="card-body">
                     <h5 class="card-title">{{ post.category.name }}</h5>
                     <p class="card-text">{{ post.content }}</p>
