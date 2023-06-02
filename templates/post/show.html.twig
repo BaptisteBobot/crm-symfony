@@ -2,12 +2,15 @@
 
 {% block title %}Détails du Post{% endblock %}
 
-{% block body %}
+{% block content %}
     <div class="container">
         <h1>Détails du Post</h1>
 
-        {# <h3>{{ post.title }}</h3> #}
-        <p>{{ post.content }}</p>
+        <div class="card mb-4">
+            <div class="card-body">
+                <p class="card-text">{{ post.content }}</p>
+            </div>
+        </div>
 
         <h4>Commentaires :</h4>
         {% for comment in post.comments %}
