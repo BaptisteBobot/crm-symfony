@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h1>Profil de {{ user.username }}</h1>
+  
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Informations personnelles</h5>
+      <ul class="list-group">
+        <li class="list-group-item"><strong>Nom d'utilisateur :</strong> {{ user.username }}</li>
+        <li class="list-group-item"><strong>Email :</strong> {{ user.email }}</li>
+        {# Ajoutez ici d'autres informations du profil de l'utilisateur #}
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}
