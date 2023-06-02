@@ -50,6 +50,6 @@ class DashboardController extends AbstractDashboardController
 
         yield  MenuItem::section('Révision');
         yield MenuItem::linkToCrud('Listes', 'fa fa-user', RevisionCrudController::getEntityFqcn());
-
+        yield MenuItem::linkToCrud('Categories', 'fa fa-user', CategoryCrudController::getEntityFqcn());
     }
 }
