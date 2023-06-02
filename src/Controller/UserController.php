@@ -31,7 +31,20 @@ class UserController extends AbstractController
             'users' => $userRepository->findAll(),
         ]);
     }
-
+    #[Route('/profile', name: 'user_profile', methods: ['GET'])]
+    public function profile(): Response
+    {
+        // Get the currently logged-in user
+        $user = $this->security->getUser();
+    
+        if (!$user) {
+            throw $this->createNotFoundException('User not found');
+        }
+    
+        return $this->render('user/profile.html.twig', [
+            'user' => $user,
+        ]);
+    }
     #[Route('/new', name: 'user_new', methods: ['GET', 'POST'])]
     public function new(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
@@ -100,18 +113,5 @@ class UserController extends AbstractController
         return $this->redirectToRoute('user_index');
     }
     
-    #[Route('/profile', name: 'user_profile', methods: ['GET'])]
-    public function profile(): Response
-    {
-        // Get the currently logged-in user
-        $user = $this->security->getUser();
-
-        if (!$user) {
-            throw $this->createNotFoundException('User not found');
-        }
-
-        return $this->render('user/profile.html.twig', [
-            'user' => $user,
-        ]);
-    }
+   
 }

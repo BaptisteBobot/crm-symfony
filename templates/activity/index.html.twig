@@ -3,6 +3,7 @@
 {% endblock %}
 {% block content %}
 	<h1>Liste des activités</h1>
+    <a href="{{ path('user_activities_show', {'id': app.user.id}) }}" class="btn btn-primary">Mes activités</a>
 
 	<div class="row">
 		{% for activity in activities %}

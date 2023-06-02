@@ -8,6 +8,8 @@ use App\Entity\ActivityUser;
 use App\Entity\Member;
 use App\Repository\ActivityRepository;
 use App\Repository\ActivityUserRepository;
+use App\Repository\UserRepository;
+
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,7 +33,7 @@ class ActivityUserController extends AbstractController
         $entityManager->persist($activityRegistration);
         $entityManager->flush();
 
-        return $this->redirectToRoute('activity_show', ['id' => $activity->getId()]);
+        return $this->redirectToRoute('user_activities_show', ['id' => $activity->getId()]);
     }
 
     #[Route('/unregisterActivity/{id}', name: 'activity_user_unregister')]
@@ -50,25 +52,44 @@ class ActivityUserController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('activity_show', ['id' => $activity->getId()]);
+        return $this->redirectToRoute('user_activities_show', ['id' => $activity->getId()]);
     }
 
-    #[Route('/activities/registered/{id}', name: 'activity_show')]
-    public function show(Activity $activity, ActivityUserRepository $activityUserRepository, ActivityRepository $activityRepository): Response
-    {
-        // Récupérer l'utilisateur actuellement connecté (vous devez avoir un système d'authentification en place)
-        $user = $this->getUser();
+//     #[Route('/activities/registered/{id}', name: 'activity_show')]
+//     public function show(Activity $activity, ActivityUserRepository $activityUserRepository, ActivityRepository $activityRepository): Response
+//     {
+//         // Récupérer l'utilisateur actuellement connecté (vous devez avoir un système d'authentification en place)
+//         $user = $this->getUser();
 
-        $userRegistered = $activityUserRepository->findBy([
+//         $userRegistered = $activityUserRepository->findBy([
+//             'user' => $user
+//         ]);
+// //        dump($userRegistered);
+// //        exit;
+
+
+//         return $this->render('activity/show.html.twig', [
+//             'activities' => $userRegistered
+//         ]);
+//     }
+    #[Route('/user/activities/{id}', name: 'user_activities_show')]
+    public function show(int $id, UserRepository $userRepository, ActivityUserRepository $activityUserRepository): Response
+    {
+        $user = $userRepository->find($id);
+    
+        if (!$user) {
+            throw $this->createNotFoundException(
+                'No user found for id '.$id
+            );
+        }
+    
+        $userRegisteredActivities = $activityUserRepository->findBy([
             'user' => $user
         ]);
-//        dump($userRegistered);
-//        exit;
-
-
+    
         return $this->render('activity/show.html.twig', [
-            'activities' => $userRegistered
+            'activities' => $userRegisteredActivities
         ]);
     }
-
+    
 }

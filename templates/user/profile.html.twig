@@ -1,20 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Profil{% endblock %}
+{% block title %}Profil de {{ user.firstName }}{% endblock %}
 
 {% block content %}
-<div class="container">
-  <h1>Profil de {{ user.username }}</h1>
-  
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title">Informations personnelles</h5>
-      <ul class="list-group">
-        <li class="list-group-item"><strong>Nom d'utilisateur :</strong> {{ user.username }}</li>
-        <li class="list-group-item"><strong>Email :</strong> {{ user.email }}</li>
-        {# Ajoutez ici d'autres informations du profil de l'utilisateur #}
-      </ul>
+    <div class="d-flex justify-content-center align-items-center" style="height: 80vh;">
+        <div class="card" style="background-color: #9B7EEC;">
+            <div class="card-body text-white">
+                <h1 class="card-title display-4">Profil de {{ user.firstName }} {{ user.lastName }}</h1>
+                <p class="card-text fs-5">Email: {{ user.email }}</p>
+                <p class="card-text fs-5">Phone: {{ user.phone }}</p>
+                
+                <p class="card-text fs-5">{{ user.firstName }}</p>
+                <p class="card-text fs-5">{{ user.lastName }}</p>
+                
+                <a href="{{ path('user_edit', {'id': user.id}) }}" class="btn btn-primary">Edit Profile</a>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 {% endblock %}
