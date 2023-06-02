@@ -2,7 +2,7 @@
 
 {% block title %}Hello BdeWebSiteController!{% endblock %}
 
-{% block body %}
+{% block content %}
 <style>
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
@@ -11413,16 +11413,23 @@ header.masthead .bg-circle-4 {
     <body id="page-top">
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
-            <div class="container px-5">
-                <a class="navbar-brand" href="#page-top">Need BDE</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarResponsive">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link" href="#!">Enregistrement</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#!">Connexion</a></li>
-                    </ul>
-                </div>
-            </div>
+ <div class="container px-5">
+    <a class="navbar-brand" href="#page-top">Need BDE</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ms-auto">
+            {% if not app.user %}
+                <li class="nav-item"><a  href="{{ path('app_register') }}" class="nav-link" href="#!">Enregistrement</a></li>
+                <li class="nav-item"><a  href="{{ path('app_login') }}" class="nav-link" href="#!">Connexion</a></li>
+            {% else %}
+                <li class="nav-item"><a  href="{{ path('app_logout') }}" class="nav-link" href="#!">Déconnexion</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+
         </nav>
         <!-- Header-->
         <header class="masthead text-center text-white">

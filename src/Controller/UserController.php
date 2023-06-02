@@ -11,15 +11,17 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
-#[Route('/admin/user')]
+#[Route('/user')]
 class UserController extends AbstractController
 {
     private EntityManagerInterface $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    private Security $security;
+    public function __construct(EntityManagerInterface $entityManager,  Security $security)
     {
         $this->entityManager = $entityManager;
+        $this->security = $security;
     }
 
     #[Route('/', name: 'user_index', methods: ['GET'])]
@@ -29,7 +31,20 @@ class UserController extends AbstractController
             'users' => $userRepository->findAll(),
         ]);
     }
-
+    #[Route('/profile', name: 'user_profile', methods: ['GET'])]
+    public function profile(): Response
+    {
+        // Get the currently logged-in user
+        $user = $this->security->getUser();
+    
+        if (!$user) {
+            throw $this->createNotFoundException('User not found');
+        }
+    
+        return $this->render('user/profile.html.twig', [
+            'user' => $user,
+        ]);
+    }
     #[Route('/new', name: 'user_new', methods: ['GET', 'POST'])]
     public function new(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
@@ -61,6 +76,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/{id}', name: 'user_show', methods: ['GET'])]
+    
     public function show(User $user): Response
     {
         return $this->render('user/show.html.twig', [
@@ -96,4 +112,6 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute('user_index');
     }
+    
+   
 }

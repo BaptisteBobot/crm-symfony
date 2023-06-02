@@ -2,7 +2,7 @@
 
 {% block title %}Calendrier{% endblock %}
 
-{% block body %}
+{% block content %}
     <h1>Calendrier</h1>
     <div id="calendar"></div>
 
@@ -67,14 +67,8 @@
             </div>
         </div>
     </div>
-{% endblock %}
 
-{% block stylesheets %}
-    <!-- Ajoutez le lien CDN pour Bootstrap CSS ici -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-{% endblock %}
 
-{% block javascripts %}
    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.6/index.global.min.js'></script>
     <!-- Ajoutez le lien CDN pour Bootstrap JS ici -->
@@ -136,7 +130,7 @@ select: function(info) {
         };
 
         // Utilisez fetch pour envoyer les données de l'activité à votre contrôleur Symfony via une requête POST
-        fetch('/activities/create', {
+        fetch('/home/activities/create', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
