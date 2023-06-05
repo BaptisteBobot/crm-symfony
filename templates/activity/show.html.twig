@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+{% block title %}Liste des activités
+{% endblock %}
+
+{% block content %}
+	<h1>Liste des activités</h1>
+
+	<div class="row">
+		{% for activityUser in activities %}
+			<div class="col-md-4 mb-4">
+				<div class="card" style="width: 18rem;">
+					{# Ici, vous pouvez ajouter une image si vous en avez une pour chaque activité #}
+					{# <img src="{{ activityUser.activity.image }}" class="card-img-top" alt="{{ activityUser.activity.name }}"> #}
+					<img src="https://picsum.photos/200/200" alt="Image aléatoire"> <div class="card-body">
+						<h5 class="card-title">{{ activityUser.activity.name }}</h5>
+						<p class="card-text">
+							Date de début:
+							{{ activityUser.activity.startDate|date('d/m/Y H:i') }}<br>
+							Date de fin:
+							{{ activityUser.activity.endDate|date('d/m/Y H:i') }}<br>
+							Lieu:
+							{{ activityUser.activity.location }}
+						</p>
+						<a href="{{ path('activity_edit', {'id': activityUser.activity.id}) }}" class="btn btn-primary">Modifier</a>
+						<a href="{{ path('activity_delete', {'id': activityUser.activity.id}) }}" class="btn btn-danger">Supprimer</a>
+						<a href="{{ path('activity_user_unregister', {'id': activityUser.activity.id}) }}" class="btn btn-primary">Se désinscrire</a>
+						<span id="status-{{ activityUser.activity.id }}"></span>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+
+{% endblock %}

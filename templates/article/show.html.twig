@@ -1,0 +1,35 @@
+{# templates/article/show.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>{{ article.title }}</h1>
+
+        {% if article.imageName %}
+            <img src="{{ asset('images/articles/' ~ article.imageName) }}" alt="{{ article.title }}" class="img-fluid" />
+        {% endif %}
+
+        <p><strong>Description :</strong> {{ article.description }}</p>
+        <p><strong>Prix :</strong> {{ article.price }}</p>
+        <p><strong>Quantité :</strong> {{ article.quantity }}</p>
+
+        <ul>
+            <li>
+                <strong>Tailles :</strong>
+                <ul>
+                    {% for size in article.sizes %}
+                        <li>{{ size }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+        </ul>
+
+        {# <a href="{{ path('article_edit', {'id': article.id}) }}" class="btn btn-primary">Modifier</a> #}
+        {# <a href="{{ path('article_index') }}" class="btn btn-secondary">Retour à la liste</a> #}
+
+        {# {{ include('article/_delete_form.html.twig') }} #}
+    </div>
+{% endblock %}

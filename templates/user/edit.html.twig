@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier un membre{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Modifier un membre</h1>
+
+    {{ include('user/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+
+    <a href="{{ path('user_index') }}" class="btn btn-secondary">Retour à la liste</a>
+</div>
+{% endblock %}

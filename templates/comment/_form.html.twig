@@ -1,0 +1,6 @@
+{{ form_start(form) }}
+  <div class="form-group">
+    {{ form_widget(form.content, {'attr': {'class': 'form-control', 'placeholder': 'Enter your comment'}}) }}
+  </div>
+  <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

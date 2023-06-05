@@ -1,0 +1,33 @@
+{# templates/article/index.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}All Articles{% endblock %}
+
+{% block content %}
+    <h1>All Articles</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for article in articles %}
+                <tr>
+                    <td>{{ article.id }}</td>
+                    <td>{{ article.title }}</td>
+                    <td>{{ article.price }}</td>
+                    <td>
+                        <a href="{{ path('article_show', {'id': article.id}) }}">View</a>
+                        <a href="{{ path('article_edit', {'id': article.id}) }}">Edit</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

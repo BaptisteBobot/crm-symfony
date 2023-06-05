@@ -1,0 +1,7 @@
+# config/packages/easy_admin.yaml
+easy_admin:
+    entities:
+        Revision:
+            class: App\Entity\Revision
+            form:
+                type: App\Form\RevisionType

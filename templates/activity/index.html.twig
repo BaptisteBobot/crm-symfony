@@ -1,20 +1,78 @@
 {% extends 'base.html.twig' %}
+{% block title %}Liste des activités
+{% endblock %}
+{% block content %}
 
-{% block title %}Hello ActivityController!{% endblock %}
+	<h1>Liste des activités</h1>
+	{% if app.user %}
+		<a href="{{ path('user_activities_show', {'id': app.user.id}) }}" class="btn btn-primary">Mes activités</a>
+	{% else %}
+		<p>Connectez-vous pour accéder à vos activités.</p>
+	{% endif %}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+	<div class="row">
+		{% for activity in activities %}
+			<div class="col-md-4 mb-4">
+				<div class="card" style="width: 18rem;">
+					{# Ici, vous pouvez ajouter une image si vous en avez une pour chaque activité #}
+					{# <img src="{{ activity.image }}" class="card-img-top" alt="{{ activity.name }}"> #}
+					<img src="https://picsum.photos/200/200" alt="Image aléatoire"> <div class="card-body">
+						<h5 class="card-title">{{ activity.name }}</h5>
+						<p class="card-text">
+							Date de début:
+							{{ activity.startDate|date('d/m/Y H:i') }}<br>
+							Date de fin:
+							{{ activity.endDate|date('d/m/Y H:i') }}<br>
+							Lieu:
+							{{ activity.location }}
+						</p>
+						<a href="{{ path('activity_edit', {'id': activity.id}) }}" class="btn btn-primary">Modifier</a>
+						<a href="{{ path('activity_delete', {'id': activity.id}) }}" class="btn btn-danger">Supprimer</a>
+						{% if activity not in registeredActivities %}
+							<a href="{{ path('activity_user_register', {'id': activity.id}) }}" class="btn btn-primary">S'inscrire</a>
+						 {% else %}
+                            <a href="{{ path('activity_user_unregister', {'id': activity.id}) }}" class="btn btn-primary">Se désinscrire</a>
+                        {% endif %}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+						<span id="status-{{ activity.id }}"></span>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+	<a href="{{ path('activity_create') }}" class="btn btn-success">Créer une activité</a>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/bobot/IdeaProjects/crm-symfony/src/Controller/ActivityController.php'|file_link(0) }}">src/Controller/ActivityController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/bobot/IdeaProjects/crm-symfony/templates/activity/index.html.twig'|file_link(0) }}">templates/activity/index.html.twig</a></code></li>
-    </ul>
-</div>
+	<script>
+		window.addEventListener("resize", function () {
+if (window.innerWidth > 768) {
+document.getElementById('menu').classList.remove('show');
+}
+});
+
+function register(activityId) {
+fetch (`/home/registerActivity/${activityId}`, {
+method: 'POST',
+headers: {
+'X-Requested-With': 'XMLHttpRequest'
+}
+}).then(response => response.json()).then(data => {
+document.getElementById (`status-${activityId}`).innerText = 'Inscrit';
+}).catch(error => {
+console.error('Erreur lors de l\'inscription :', error);
+});
+}
+
+function unregister(activityId) {
+fetch (`/home/registerActivity/unregister/${activityId}`, {
+method: 'POST',
+headers: {
+'X-Requested-With': 'XMLHttpRequest'
+}
+}).then(response => response.json()).then(data => {
+document.getElementById (`status-${activityId}`).innerText = 'Désinscrit';
+}).catch(error => {
+console.error('Erreur lors de la désinscription :', error);
+});
+}
+	</script>
 {% endblock %}

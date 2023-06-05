@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\ActivityRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: ActivityRepository::class)]
 class Activity
@@ -27,10 +29,43 @@ class Activity
     private ?string $location = null;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ActivityMember", mappedBy="activity")
+     * @ORM\OneToMany(targetEntity="App\Entity\ActivityUser", mappedBy="activity")
      */
-    private $activityMembers;
+    private $activityUsers;
 
+    public function __construct()
+    {
+        $this->activityUsers = new ArrayCollection();
+    }
+    /**
+     * @return Collection|ActivityUser[]
+     */
+    public function getActivityUsers(): Collection
+    {
+        return $this->activityUsers;
+    }
+
+    public function addActivityUser(ActivityUser $activityUser): self
+    {
+        if (!$this->activityUsers->contains($activityUser)) {
+            $this->activityUsers[] = $activityUser;
+            $activityUser->setActivity($this);
+        }
+
+        return $this;
+    }
+
+    public function removeActivityUser(ActivityUser $activityUser): self
+    {
+        if ($this->activityUsers->removeElement($activityUser)) {
+            // set the owning side to null (unless already changed)
+            if ($activityUser->getActivity() === $this) {
+                $activityUser->setActivity(null);
+            }
+        }
+
+        return $this;
+    }
     public function getId(): ?int
     {
         return $this->id;
@@ -84,14 +119,9 @@ class Activity
         return $this;
     }
 
-    //getters and setters for activityMembers
-    public function getActivityMembers()
-    {
-        return $this->activityMembers;
-    }
 
-    public function setActivityMembers($activityMembers)
+    public function setActivityUsers($activityUsers)
     {
-        $this->activityMembers = $activityMembers;
+        $this->activityUsers = $activityUsers;
     }
 }

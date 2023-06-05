@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Supprimer une activité{% endblock %}
+
+{% block content %}
+
+    <h1>Supprimer une activité</h1>
+
+    <p>Êtes-vous sûr de vouloir supprimer cette activité : {{ activity.name }} ?</p>
+
+    <form action="{{ path('activity_delete', {'id': activity.id}) }}" method="post">
+        <input type="hidden" name="_method" value="DELETE">
+        <button type="submit" class="btn btn-danger">Supprimer</button>
+        <a href="{{ path('activity_index') }}" class="btn btn-secondary">Annuler</a>
+    </form>
+{% endblock %}
