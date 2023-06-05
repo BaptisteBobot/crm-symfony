@@ -2,8 +2,13 @@
 {% block title %}Liste des activités
 {% endblock %}
 {% block content %}
+
 	<h1>Liste des activités</h1>
-    <a href="{{ path('user_activities_show', {'id': app.user.id}) }}" class="btn btn-primary">Mes activités</a>
+	{% if app.user %}
+		<a href="{{ path('user_activities_show', {'id': app.user.id}) }}" class="btn btn-primary">Mes activités</a>
+	{% else %}
+		<p>Connectez-vous pour accéder à vos activités.</p>
+	{% endif %}
 
 	<div class="row">
 		{% for activity in activities %}
@@ -23,8 +28,12 @@
 						</p>
 						<a href="{{ path('activity_edit', {'id': activity.id}) }}" class="btn btn-primary">Modifier</a>
 						<a href="{{ path('activity_delete', {'id': activity.id}) }}" class="btn btn-danger">Supprimer</a>
-						<a href="{{ path('activity_user_register', {'id': activity.id}) }}" class="btn btn-primary">S'inscrire</a>
-						<a href="{{ path('activity_user_unregister', {'id': activity.id}) }}" class="btn btn-primary">Se désinscrire</a>
+						{% if activity not in registeredActivities %}
+							<a href="{{ path('activity_user_register', {'id': activity.id}) }}" class="btn btn-primary">S'inscrire</a>
+						 {% else %}
+                            <a href="{{ path('activity_user_unregister', {'id': activity.id}) }}" class="btn btn-primary">Se désinscrire</a>
+                        {% endif %}
+
 						<span id="status-{{ activity.id }}"></span>
 					</div>
 				</div>
@@ -33,40 +42,37 @@
 	</div>
 	<a href="{{ path('activity_create') }}" class="btn btn-success">Créer une activité</a>
 
-
-
-
-<script>
-	window.addEventListener("resize", function () {
+	<script>
+		window.addEventListener("resize", function () {
 if (window.innerWidth > 768) {
 document.getElementById('menu').classList.remove('show');
 }
 });
 
 function register(activityId) {
-fetch(`/home/registerActivity/${activityId}`, {
+fetch (`/home/registerActivity/${activityId}`, {
 method: 'POST',
 headers: {
 'X-Requested-With': 'XMLHttpRequest'
 }
 }).then(response => response.json()).then(data => {
-document.getElementById(`status-${activityId}`).innerText = 'Inscrit';
+document.getElementById (`status-${activityId}`).innerText = 'Inscrit';
 }).catch(error => {
 console.error('Erreur lors de l\'inscription :', error);
 });
 }
 
 function unregister(activityId) {
-fetch(`/home/registerActivity/unregister/${activityId}`, {
+fetch (`/home/registerActivity/unregister/${activityId}`, {
 method: 'POST',
 headers: {
 'X-Requested-With': 'XMLHttpRequest'
 }
 }).then(response => response.json()).then(data => {
-document.getElementById(`status-${activityId}`).innerText = 'Désinscrit';
+document.getElementById (`status-${activityId}`).innerText = 'Désinscrit';
 }).catch(error => {
 console.error('Erreur lors de la désinscription :', error);
 });
 }
-</script>
+	</script>
 {% endblock %}

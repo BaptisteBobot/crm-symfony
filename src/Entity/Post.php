@@ -29,9 +29,14 @@ class Post
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: "post")]
     private Collection $comments;
 
+    
+    #[ORM\Column(type: "datetime")]
+    private ?\DateTimeInterface $createdAt = null;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->createdAt = new \DateTime();
     }
 
     public function getId(): ?int
@@ -102,6 +107,18 @@ class Post
                 $comment->setPost(null);
             }
         }
+
+        return $this;
+    }
+    
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }

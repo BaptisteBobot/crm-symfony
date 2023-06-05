@@ -3,9 +3,11 @@
 {% block title %}New Comment{% endblock %}
 
 {% block content %}
-<h1>Create new Comment</h1>
+<div class="container">
+  <h1>Create new Comment</h1>
 
-{{ include('comment/_form.html.twig') }}
+  {{ include('comment/_form.html.twig') }}
 
-<a href="{{ path('post_show', {'id': post.id}) }}">back to post</a>
+  <a href="{{ path('post_show', {'id': post.id}) }}" class="btn btn-secondary">Back to post</a>
+</div>
 {% endblock %}

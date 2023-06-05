@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
-
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 /**
  * @Route("/comment")
  */
@@ -24,13 +24,19 @@ class CommentController extends AbstractController
     public function new(Post $post, Request $request, EntityManagerInterface $entityManager, Security $security): Response
     {
         $user = $security->getUser();
+        if (!$user) {
+            throw new AccessDeniedException('Vous devez être connecté pour créer un commentaire.');
+        }
+        
         $comment = new Comment();
+        $comment->setCreatedBy($user);
+        $comment->setCreatedAt(new \DateTime()); // Définir la date et l'heure actuelles
+        $comment->setPost($post);
+        
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $comment->setCreatedBy($user);
-            $comment->setPost($post);
             $entityManager->persist($comment);
             $entityManager->flush();
 
