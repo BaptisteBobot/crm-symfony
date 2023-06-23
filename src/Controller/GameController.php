@@ -6,11 +6,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('/home/games')]
 class GameController extends AbstractController
 {
-    /**
-     * @Route("/games", name="games")
-     */
+    #[Route('/', name: 'games', methods: ['GET'])]
     public function games(): Response
     {
         return $this->render('game/index.html.twig');

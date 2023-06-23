@@ -4,7 +4,7 @@ controllers:
 index:
     path: /
     defaults:
-        _controller: App\Controller\HomeController::index
+        _controller: App\Controller\BdeWebSiteController::app_bde_web_site
         _canonical_route: home
 
 home:
