@@ -13,14 +13,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-/**
- * @Route("/post", name="post_")
- */
+#[Route('/home/post', name: 'post_')]
 class PostController extends AbstractController
 {
-    /**
-     * @Route("/", name="index")
-     */
+    #[Route('/', name: 'index', methods: ['GET'])]
     public function index(PostRepository $postRepository): Response
     {
         $posts = $postRepository->findAll();
@@ -30,37 +26,33 @@ class PostController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="new")
-     */
+    #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, Security $security): Response
-    {   
+    {
         $user = $security->getUser();
         if (!$user) {
             throw new AccessDeniedException('Vous devez être connecté pour créer un post.');
         }
         $post = new Post();
         $post->setCreatedBy($user);  // Set the current logged in user as the creator of the post
-    
+
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
-    
+
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($post);
             $entityManager->flush();
-    
+
             return $this->redirectToRoute('post_index');
         }
-    
+
         return $this->render('post/new.html.twig', [
             'post' => $post,
             'form' => $form->createView(),
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="show", requirements={"id"="\d+"})
-     */
+    #[Route('/{id}', name: 'show', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
     public function show(Post $post): Response
     {
         return $this->render('post/show.html.twig', [
@@ -68,30 +60,28 @@ class PostController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="edit", requirements={"id"="\d+"})
-     */
+    #[Route('/{id}/edit', name: 'edit', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
     public function edit(Request $request, EntityManagerInterface $entityManager, Post $post,Security $security): Response
     {
-         // Vérifier si l'utilisateur a le rôle "admin" ou s'il est le créateur du post
-    $user = $security->getUser();
-    if (!$user || (!$this->isGranted('ROLE_ADMIN') && $post->getCreatedBy() !== $user)) {
-        throw new AccessDeniedException('Vous n\'êtes pas autorisé à modifier ce post.');
-    }
+        // Vérifier si l'utilisateur a le rôle "admin" ou s'il est le créateur du post
+        $user = $security->getUser();
+        if (!$user || (!$this->isGranted('ROLE_ADMIN') && $post->getCreatedBy() !== $user)) {
+            throw new AccessDeniedException('Vous n\'êtes pas autorisé à modifier ce post.');
+        }
 
-    $form = $this->createForm(PostType::class, $post);
-    $form->handleRequest($request);
+        $form = $this->createForm(PostType::class, $post);
+        $form->handleRequest($request);
 
-    if ($form->isSubmitted() && $form->isValid()) {
-        $entityManager->flush();
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
 
-        return $this->redirectToRoute('post_show', ['id' => $post->getId()]);
-    }
+            return $this->redirectToRoute('post_show', ['id' => $post->getId()]);
+        }
 
-    return $this->render('post/edit.html.twig', [
-        'form' => $form->createView(),
-        'post' => $post,
-    ]);
+        return $this->render('post/edit.html.twig', [
+            'form' => $form->createView(),
+            'post' => $post,
+        ]);
     }
 
     /**
