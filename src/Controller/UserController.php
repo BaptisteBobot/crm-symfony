@@ -13,7 +13,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 
-#[Route('/home/user')]
+#[Route('/user')]
 class UserController extends AbstractController
 {
     private EntityManagerInterface $entityManager;

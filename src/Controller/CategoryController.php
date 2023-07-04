@@ -12,10 +12,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 
-#[Route('/home/category')]
+/**
+ * @Route("/category")
+ */
 class CategoryController extends AbstractController
 {
-    #[Route('/', name: 'category_index', methods: ['GET'])]
+    /**
+     * @Route("/", name="category_index", methods={"GET"})
+     */
     public function index(CategoryRepository $categoryRepository): Response
     {
         return $this->render('category/index.html.twig', [
@@ -23,7 +27,9 @@ class CategoryController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'category_new', methods: ['GET', 'POST'])]
+    /**
+     * @Route("/new", name="category_new", methods={"GET","POST"})
+     */
     public function new(Request $request, Security $security, EntityManagerInterface $entityManager): Response
     {
         $user = $security->getUser();
@@ -49,8 +55,9 @@ class CategoryController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'category_show', methods: ['GET'])]
-
+    /**
+     * @Route("/{id}", name="category_show", methods={"GET"})
+     */
     public function show(Category $category): Response
     {
         return $this->render('category/show.html.twig', [
@@ -58,8 +65,9 @@ class CategoryController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'category_edit', methods: ['GET', 'POST'])]
-
+    /**
+     * @Route("/{id}/edit", name="category_edit", methods={"GET","POST"})
+     */
     public function edit(Request $request, Category $category, Security $security, EntityManagerInterface $entityManager): Response
     {
         $user = $security->getUser();
@@ -82,8 +90,9 @@ class CategoryController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'category_delete', methods: ['POST'])]
-
+    /**
+     * @Route("/{id}", name="category_delete", methods={"POST"})
+     */
     public function delete(Request $request, Category $category, Security $security, EntityManagerInterface $entityManager): Response
     {
         $user = $security->getUser();
