@@ -4,7 +4,7 @@ controllers:
 index:
     path: /
     defaults:
-        _controller: App\Controller\BdeWebSiteController::app_bde_web_site
+        _controller: App\Controller\HomeController::index
         _canonical_route: home
 
 home:
@@ -14,13 +14,3 @@ home:
 user:
     resource: '../src/Controller/UserController.php'
     type: annotation
-upload_success:
-    path: /upload/success
-    controller: App\Controller\ProjectController::uploadSuccess
-
-assets:
-    path: /assets/{path}
-    defaults:
-        _controller: frameworkBundle:Redirect:urlRedirect
-        path: "%kernel.project_dir%/assets/{path}"
-        permanent: true
