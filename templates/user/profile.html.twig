@@ -3,9 +3,52 @@
 {% block title %}Profil de {{ user.firstName }}{% endblock %}
 
 {% block content %}
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <style>
+        .profile-card {
+            background-color: #9B7EEC;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .profile-card:hover {
+            transform: scale(1.05);
+        }
+
+        .profile-card .card-body {
+            padding: 2rem;
+        }
+
+        .profile-card h1.card-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .profile-card .card-text {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-card .btn-primary {
+            background-color: #6C5DD3;
+            border-color: #6C5DD3;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .profile-card .btn-primary:hover {
+            background-color: #5D48BE;
+            border-color: #5D48BE;
+        }
+    </style>
     <div class="d-flex justify-content-center align-items-center" style="height: 80vh;">
-        <div class="card" style="background-color: #9B7EEC;">
-            <div class="card-body text-white">
+        <div class="card profile-card">
+            <div class="card-body">
                 <h1 class="card-title display-4">Profil de {{ user.firstName }} {{ user.lastName }}</h1>
                 <p class="card-text fs-5">Email: {{ user.email }}</p>
                 <p class="card-text fs-5">Phone: {{ user.phone }}</p>
@@ -13,7 +56,7 @@
                 <p class="card-text fs-5">{{ user.firstName }}</p>
                 <p class="card-text fs-5">{{ user.lastName }}</p>
                 
-                <a href="{{ path('user_edit', {'id': user.id}) }}" class="btn btn-primary">Edit Profile</a>
+                <a href="{{ path('user_edit', {'id': user.id}) }}" class="btn btn-primary">Modifier le profil</a>
             </div>
         </div>
     </div>

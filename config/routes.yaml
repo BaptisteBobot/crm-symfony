@@ -17,3 +17,10 @@ user:
 upload_success:
     path: /upload/success
     controller: App\Controller\ProjectController::uploadSuccess
+
+assets:
+    path: /assets/{path}
+    defaults:
+        _controller: frameworkBundle:Redirect:urlRedirect
+        path: "%kernel.project_dir%/assets/{path}"
+        permanent: true
