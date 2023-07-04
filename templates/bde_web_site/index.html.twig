@@ -1,18 +1,4 @@
 {% block content %}
-	<style>
-		.example-wrapper {
-			margin: 1em auto;
-			max-width: 800px;
-			width: 95%;
-			font: 18px / 1.5 sans-serif;
-		}
-		.example-wrapper code {
-			background: #F5F5F5;
-			padding: 2px 6px;
-		}
-	</style>
-
-
 	<!DOCTYPE html>
 	<html lang="en">
 		<head>
@@ -29,8 +15,7 @@
 			<link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet"/>
 			<link
 			href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i" rel="stylesheet"/>
-			<!-- Core theme CSS (includes Bootstrap)-->
-			<link href="css/styles.css" rel="stylesheet"/>
+		<!-- Core theme CSS (includes Bootstrap)-->
 		</head>
 		<style>
 			@charset "UTF-8";
@@ -11723,7 +11708,6 @@
 			<nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
 				<div class="container px-5">
 					<a class="navbar-brand" href="#page-top">Need BDE</a>
-					<a class="navbar-brand" href="{{ path('accueil') }}">Home</a>
 					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
 						<span class="navbar-toggler-icon"></span>
 					</button>
@@ -11737,6 +11721,9 @@
 									<a href="{{ path('app_login') }}" class="nav-link" href="#!">Connexion</a>
 								</li>
 							{% else %}
+								<li class="nav-item">
+									<a href="{{ path('activity_index') }}" class="nav-link" href="#!">Activités</a>
+								</li>
 								<li class="nav-item">
 									<a href="{{ path('app_logout') }}" class="nav-link" href="#!">Déconnexion</a>
 								</li>
@@ -11766,7 +11753,10 @@
 				<div class="container px-5">
 					<div class="row gx-5 align-items-center">
 						<div class="col-lg-6 order-lg-2">
-							<div class="p-5"><img class="img-fluid rounded-circle"  src="{{ asset('images/bde.jpg') }}" alt="BDE"></div>
+							<div class="p-5">
+								<img class="logo" src={{ asset('build/img/01.jpg') }} alt="logo"/>
+							</div>
+
 						</div>
 						<div class="col-lg-6 order-lg-1">
 							<div class="p-5">
@@ -11783,7 +11773,7 @@
 				<div class="container px-5">
 					<div class="row gx-5 align-items-center">
 						<div class="col-lg-6">
-							<div class="p-5"><img class="img-fluid rounded-circle"  src="{{ asset('images/eventBde.jpg') }}" alt="Event"></div>
+							<div class="p-5"><img class="img-fluid rounded-circle" src={{ asset('build/img/02.jpg') }} alt="Bde"/></div>
 						</div>
 						<div class="col-lg-6">
 							<div class="p-5">
@@ -11799,7 +11789,7 @@
 				<div class="container px-5">
 					<div class="row gx-5 align-items-center">
 						<div class="col-lg-6 order-lg-2">
-							<div class="p-5"><img class="img-fluid rounded-circle"  src="{{ asset('images/joinUs.jpg') }}" alt="join us"></div>
+							<div class="p-5"><img class="img-fluid rounded-circle" src={{ asset('build/img/03.jpg') }} alt="Join us"/></div>
 						</div>
 						<div class="col-lg-6 order-lg-1">
 							<div class="p-5">
@@ -11819,7 +11809,6 @@
 			<!-- Bootstrap core JS-->
 			<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 			<!-- Core theme JS-->
-			<script src="js/scripts.js"></script>
 		</body>
 	</html>
 
