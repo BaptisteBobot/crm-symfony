@@ -1,78 +1,99 @@
+
 {% extends 'base.html.twig' %}
-{% block title %}Liste des activités
-{% endblock %}
+
+{% block title %}Liste des activités{% endblock %}
+
 {% block content %}
+    <style>
+        .card {
+            transition: 0.3s;
+        }
 
-	<h1>Liste des activités</h1>
-	{% if app.user %}
-		<a href="{{ path('user_activities_show', {'id': app.user.id}) }}" class="btn btn-primary">Mes activités</a>
-	{% else %}
-		<p>Connectez-vous pour accéder à vos activités.</p>
-	{% endif %}
+        .card:hover {
+            transform: scale(1.05);
+        }
 
-	<div class="row">
-		{% for activity in activities %}
-			<div class="col-md-4 mb-4">
-				<div class="card" style="width: 18rem;">
-					{# Ici, vous pouvez ajouter une image si vous en avez une pour chaque activité #}
-					{# <img src="{{ activity.image }}" class="card-img-top" alt="{{ activity.name }}"> #}
-					<img src="https://picsum.photos/200/200" alt="Image aléatoire"> <div class="card-body">
-						<h5 class="card-title">{{ activity.name }}</h5>
-						<p class="card-text">
-							Date de début:
-							{{ activity.startDate|date('d/m/Y H:i') }}<br>
-							Date de fin:
-							{{ activity.endDate|date('d/m/Y H:i') }}<br>
-							Lieu:
-							{{ activity.location }}
-						</p>
-						<a href="{{ path('activity_edit', {'id': activity.id}) }}" class="btn btn-primary">Modifier</a>
-						<a href="{{ path('activity_delete', {'id': activity.id}) }}" class="btn btn-danger">Supprimer</a>
-						{% if activity not in registeredActivities %}
-							<a href="{{ path('activity_user_register', {'id': activity.id}) }}" class="btn btn-primary">S'inscrire</a>
-						 {% else %}
-                            <a href="{{ path('activity_user_unregister', {'id': activity.id}) }}" class="btn btn-primary">Se désinscrire</a>
-                        {% endif %}
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+        }
 
-						<span id="status-{{ activity.id }}"></span>
-					</div>
-				</div>
-			</div>
-		{% endfor %}
-	</div>
-	<a href="{{ path('activity_create') }}" class="btn btn-success">Créer une activité</a>
+   		.btn-action {
+            flex: 0 0 48%; 
+            margin: 2px;
+        }
 
-	<script>
-		window.addEventListener("resize", function () {
+        .btn-action-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+    </style>
+    <div class="container">
+        <h1 class="text-center py-5">Liste des activités</h1>
+        <div class="d-flex justify-content-between mb-4 flex-wrap">
+            <a href="{{ path('user_activities_show', {'id': app.user.id}) }}" class="btn btn-primary flex-fill mr-2 mb-2">Mes activités</a>
+            <a href="{{ path('activity_create') }}" class="btn btn-success flex-fill ml-2 mb-2">Créer une activité</a>
+        </div>
+        <div class="row">
+            {% for activity in activities %}
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <img src="https://picsum.photos/200/200" alt="Image aléatoire" class="card-img-top"> 
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <div>
+                                <h5 class="card-title">{{ activity.name }}</h5>
+                                <p class="card-text">
+                                    Date de début: {{ activity.startDate|date('d/m/Y H:i') }}<br>
+                                    Date de fin: {{ activity.endDate|date('d/m/Y H:i') }}<br>
+                                    Lieu: {{ activity.location }}
+                                </p>
+                            </div>
+                            <div class="btn-action-group">
+                                <a href="{{ path('activity_edit', {'id': activity.id}) }}" class="btn btn-primary btn-action mb-1">Modifier</a>
+                                <a href="{{ path('activity_delete', {'id': activity.id}) }}" class="btn btn-danger btn-action mb-1">Supprimer</a>
+                                <a href="{{ path('activity_user_register', {'id': activity.id}) }}" class="btn btn-primary btn-action mb-1">S'inscrire</a>
+                                <a href="{{ path('activity_user_unregister', {'id': activity.id}) }}" class="btn btn-primary btn-action mb-1">Se désinscrire</a>
+                                <span id="status-{{ activity.id }}"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+ <script>
+	window.addEventListener("resize", function () {
 if (window.innerWidth > 768) {
 document.getElementById('menu').classList.remove('show');
 }
 });
 
 function register(activityId) {
-fetch (`/home/registerActivity/${activityId}`, {
+fetch(`/home/registerActivity/${activityId}`, {
 method: 'POST',
 headers: {
 'X-Requested-With': 'XMLHttpRequest'
 }
 }).then(response => response.json()).then(data => {
-document.getElementById (`status-${activityId}`).innerText = 'Inscrit';
+document.getElementById(`status-${activityId}`).innerText = 'Inscrit';
 }).catch(error => {
 console.error('Erreur lors de l\'inscription :', error);
 });
 }
 
 function unregister(activityId) {
-fetch (`/home/registerActivity/unregister/${activityId}`, {
+fetch(`/home/registerActivity/unregister/${activityId}`, {
 method: 'POST',
 headers: {
 'X-Requested-With': 'XMLHttpRequest'
 }
 }).then(response => response.json()).then(data => {
-document.getElementById (`status-${activityId}`).innerText = 'Désinscrit';
+document.getElementById(`status-${activityId}`).innerText = 'Désinscrit';
 }).catch(error => {
 console.error('Erreur lors de la désinscription :', error);
 });
 }
-	</script>
+</script>
 {% endblock %}

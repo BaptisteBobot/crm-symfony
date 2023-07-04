@@ -1,34 +1,63 @@
 {% extends 'base.html.twig' %}
-{% block title %}Liste des activités
-{% endblock %}
+
+{% block title %}Liste des activités{% endblock %}
 
 {% block content %}
-	<h1>Liste des activités</h1>
+    <style>
+        .card {
+            transition: 0.3s;
+        }
 
-	<div class="row">
-		{% for activityUser in activities %}
-			<div class="col-md-4 mb-4">
-				<div class="card" style="width: 18rem;">
-					{# Ici, vous pouvez ajouter une image si vous en avez une pour chaque activité #}
-					{# <img src="{{ activityUser.activity.image }}" class="card-img-top" alt="{{ activityUser.activity.name }}"> #}
-					<img src="https://picsum.photos/200/200" alt="Image aléatoire"> <div class="card-body">
-						<h5 class="card-title">{{ activityUser.activity.name }}</h5>
-						<p class="card-text">
-							Date de début:
-							{{ activityUser.activity.startDate|date('d/m/Y H:i') }}<br>
-							Date de fin:
-							{{ activityUser.activity.endDate|date('d/m/Y H:i') }}<br>
-							Lieu:
-							{{ activityUser.activity.location }}
-						</p>
-						<a href="{{ path('activity_edit', {'id': activityUser.activity.id}) }}" class="btn btn-primary">Modifier</a>
-						<a href="{{ path('activity_delete', {'id': activityUser.activity.id}) }}" class="btn btn-danger">Supprimer</a>
-						<a href="{{ path('activity_user_unregister', {'id': activityUser.activity.id}) }}" class="btn btn-primary">Se désinscrire</a>
-						<span id="status-{{ activityUser.activity.id }}"></span>
-					</div>
-				</div>
-			</div>
-		{% endfor %}
-	</div>
+        .card:hover {
+            transform: scale(1.05);
+        }
 
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .btn-action {
+            flex: 0 0 48%; /* This will force the buttons to be of the same width */
+            margin: 2px;
+        }
+
+        .btn-action-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+    </style>
+    <div class="container">
+ 
+		        <h1 class="text-center py-5">Liste des activités</h1>
+        <div class="d-flex justify-content-between mb-4 flex-wrap">
+            <a href="{{ path('activity_index') }}" class="btn btn-primary flex-fill mr-2 mb-2">Liste des activités</a>
+        </div>
+        <div class="row">
+            {% for activityUser in activities %}
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <img src="https://picsum.photos/200/200" alt="Image aléatoire" class="card-img-top"> 
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <div>
+                                <h5 class="card-title">{{ activityUser.activity.name }}</h5>
+                                <p class="card-text">
+                                    Date de début: {{ activityUser.activity.startDate|date('d/m/Y H:i') }}<br>
+                                    Date de fin: {{ activityUser.activity.endDate|date('d/m/Y H:i') }}<br>
+                                    Lieu: {{ activityUser.activity.location }}
+                                </p>
+                            </div>
+                            <div class="btn-action-group">
+                                <a href="{{ path('activity_edit', {'id': activityUser.activity.id}) }}" class="btn btn-primary btn-action mb-1">Modifier</a>
+                                <a href="{{ path('activity_delete', {'id': activityUser.activity.id}) }}" class="btn btn-danger btn-action mb-1">Supprimer</a>
+                                <a href="{{ path('activity_user_unregister', {'id': activityUser.activity.id}) }}" class="btn btn-primary btn-action mb-1">Se désinscrire</a>
+                                <span id="status-{{ activityUser.activity.id }}"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}
