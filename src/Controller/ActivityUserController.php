@@ -33,7 +33,7 @@ class ActivityUserController extends AbstractController
         $entityManager->persist($activityRegistration);
         $entityManager->flush();
 
-        return $this->redirectToRoute('user_activities_show', ['id' => $activity->getId()]);
+        return $this->redirectToRoute('user_activities_show', ['id' => $user->getId()]);
     }
 
     #[Route('/unregisterActivity/{id}', name: 'activity_user_unregister')]
@@ -52,7 +52,8 @@ class ActivityUserController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('user_activities_show', ['id' => $activity->getId()]);
+        return $this->redirectToRoute('user_activities_show', ['id' => $user->getId()]);
+
     }
 
 //     #[Route('/activities/registered/{id}', name: 'activity_show')]
