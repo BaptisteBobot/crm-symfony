@@ -17,6 +17,8 @@
             <div class="card mb-3">
                 <div class="card-body">
                     <p class="card-text">{{ comment.content }}</p>
+                            <p>Posté par {{ comment.createdBy.firstName }} le {{ comment.createdAt|date('d/m/Y H:i:s') }}</p>
+
                     {% if app.user and (is_granted('ROLE_ADMIN') or comment.createdBy == app.user) %}
                         <a href="{{ path('comment_edit', { 'id': comment.id }) }}" class="btn btn-primary">Modifier</a>
                         <form action="{{ path('comment_delete', { 'id': comment.id }) }}" method="post" class="d-inline">

@@ -4,8 +4,11 @@ namespace App\Controller;
 
 
 use App\Entity\Activity;
+use App\Entity\User;
+
 use App\Form\ActivityType;
 use App\Repository\ActivityRepository;
+use App\Repository\ActivityUserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,17 +19,31 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/home')]
 class ActivityController extends AbstractController
 {
-    /**
-     * @Route("/activities", name="activity_index")
-     */
-    public function index(ActivityRepository $activityRepository): Response
+    #[Route('/activities', name: 'activity_index')]
+    public function index(ActivityRepository $activityRepository, ActivityUserRepository $activityUserRepository): Response
     {
-        $activities = $activityRepository->findAll();
-
+        $registeredActivities = [];
+    
+        if ($this->getUser()) {
+            $registeredActivities = $this->getRegisteredActivities($this->getUser(), $activityUserRepository);
+        }
+    
         return $this->render('activity/index.html.twig', [
-            'activities' => $activities,
+            'activities' => $activityRepository->findAll(),
+            'registeredActivities' => $registeredActivities
         ]);
     }
+    private function getRegisteredActivities(User $user, ActivityUserRepository $activityUserRepository)
+    {
+    $activityUsers = $activityUserRepository->findBy(['user' => $user]);
+    $activities = [];
+
+    foreach ($activityUsers as $activityUser) {
+        $activities[] = $activityUser->getActivity();
+    }
+
+    return $activities;
+}
 
 /**
  * @Route("/activities/create", name="activity_create", methods={"GET","POST"})

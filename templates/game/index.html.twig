@@ -1,116 +1,117 @@
 {% extends 'base.html.twig' %}
 
 {% block stylesheets %}
-    {{ parent() }}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <style>
-        .game {
-            width: 300px;
-            height: 300px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
+	{{ parent() }}
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+	<style>
+		.container {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-between;
+			row-gap: 20px;
+		}
+		.card {
+			transition: 0.3s;
+			width: 300px;
+			height: 300px;
+		}
 
-        .game:hover {
-            transform: scale(1.1);
-        }
+		.card:hover {
+			transform: scale(1.05);
+		}
 
-        .game.modal-open {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+		.card img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
 
-        .game.modal-open .modal-dialog {
-            margin: 0;
-            width: auto;
-            max-width: 90%;
-            height: auto;
-            max-height: 90%;
-        }
+		.modal-dialog {
+			position: absolute;
+			left: 35%;
+			transform: translate(-50%, -50%);
+			width: 800px;
+			height: 600px;
+			max-width: none;
+			margin-top: 2rem;
 
-        .game iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-    </style>
+		}
+
+		.modal-content {
+			height: 100%;
+		}
+
+		.modal-body {
+			height: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 0;
+		}
+		.modal-body iframe {
+			width: 100%;
+			height: 100%;
+		}
+	</style>
 {% endblock %}
-
 
 {% block content %}
-<div class="container">
-    <h1>Jeux</h1>
+	<div style="margin-top: 5rem;">
+		<h1 class="text-center py-5">Détente</h1>
+	</div>
+	<div class="container">
 
-    <div class="container">
-        <div class="row">
-            <div class="col-6">
-                <div class="game" data-bs-toggle="modal" data-bs-target="#chessModal">
-                    <iframe src="https://playpager.com/embed/chess/index.html" scrolling="no"></iframe>
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="game" data-bs-toggle="modal" data-bs-target="#reversiModal">
-                    <iframe src="https://playpager.com/embed/reversi/index.html" scrolling="no"></iframe>
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="game" data-bs-toggle="modal" data-bs-target="#checkersModal">
-                    <iframe src="https://playpager.com/embed/checkers/index.html" scrolling="no"></iframe>
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="game" data-bs-toggle="modal" data-bs-target="#monopolyModal">
-                    <iframe src="https://www.gameslol.net/monopoly-1122.html" scrolling="no"></iframe>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Modals -->
-    <div class="modal fade" id="chessModal" tabindex="-1" aria-labelledby="chessModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <iframe src="https://playpager.com/embed/chess/index.html" scrolling="no"></iframe>
-                </div>
-            </div>
-        </div>
-    </div>
+		<div class="card" data-bs-toggle="modal" data-bs-target="#chessModal">
+			<img src={{ asset('build/img/chess-game.jpg') }} alt="logo" class="card-img-top">
+		</div>
+		<div class="card" data-bs-toggle="modal" data-bs-target="#reversiModal">
+			<img src={{ asset('build/img/minireversi.jpg') }} alt="logo" class="card-img-top">
+		</div>
+		<div class="card" data-bs-toggle="modal" data-bs-target="#checkersModal">
+			<img src={{ asset('build/img/minicheckers.jpg') }} alt="logo" class="card-img-top">
+		</div>
+		<div class="card" data-bs-toggle="modal" data-bs-target="#monopolyModal">
+			<img src={{ asset('build/img/unnamed.png') }} alt="logo" class="card-img-top">
+		</div>
 
-    <div class="modal fade" id="reversiModal" tabindex="-1" aria-labelledby="reversiModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <iframe src="https://playpager.com/embed/reversi/index.html" scrolling="no"></iframe>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="checkersModal" tabindex="-1" aria-labelledby="checkersModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <iframe src="https://playpager.com/embed/checkers/index.html" scrolling="no"></iframe>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="monopolyModal" tabindex="-1" aria-labelledby="monopolyModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <iframe src="https://www.gameslol.net/monopoly-1122.html" scrolling="no"></iframe>
-                </div>
-            </div>
-        </div>
-   
-    </div>
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-{% endblock %}
+		<div class="modal fade" id="chessModal" tabindex="-1">
+			<div class="modal-dialog modal-dialog-centered ">
+				<div class="modal-content">
+					<div class="modal-body">
+						<iframe src="https://playpager.com/embed/chess/index.html" scrolling="no"></iframe>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="reversiModal" tabindex="-1">
+			<div class="modal-dialog modal-dialog-centered ">
+				<div class="modal-content">
+					<div class="modal-body">
+						<iframe src="https://playpager.com/embed/reversi/index.html" scrolling="no"></iframe>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="checkersModal" tabindex="-1">
+			<div class="modal-dialog modal-dialog-centered ">
+				<div class="modal-content">
+					<div class="modal-body">
+						<iframe src="https://playpager.com/embed/checkers/index.html" scrolling="no"></iframe>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="monopolyModal" tabindex="-1">
+			<div class="modal-dialog modal-dialog-centered ">
+				<div class="modal-content">
+					<div class="modal-body">
+						<iframe src="https://www.gameslol.net/monopoly-1122.html" scrolling="no"></iframe>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>{% endblock %}{% block javascripts %}
+{{ parent() }}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>{% endblock %}

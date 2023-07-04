@@ -25,11 +25,14 @@ class Comment
     #[ORM\JoinColumn(nullable: false)]
     private?Post $post = null;
 
+    #[ORM\Column(type: "datetime")]
+    private ?\DateTimeInterface $createdAt = null;
+
     public function __construct()
     {
+        $this->createdAt = new \DateTime();
     }
 
-    // Getters and setters go here
 
     public function getId(): ?int
     {
@@ -68,6 +71,17 @@ class Comment
     public function setPost(?Post $post): self
     {
         $this->post = $post;
+
+        return $this;
+    }
+     public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }
