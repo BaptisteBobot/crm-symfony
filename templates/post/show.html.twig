@@ -6,7 +6,7 @@
     <div class="container">
         <h1>Détails du Post</h1>
 
-        <div class="card mb-4">
+        <div class="card mb-4 shadow">
             <div class="card-body">
                 <p class="card-text">{{ post.content }}</p>
             </div>
@@ -14,24 +14,26 @@
 
         <h4>Commentaires :</h4>
         {% for comment in post.comments %}
-            <div class="card mb-3">
+            <div class="card mb-3 shadow-sm">
                 <div class="card-body">
                     <p class="card-text">{{ comment.content }}</p>
-                            <p>Posté par {{ comment.createdBy.firstName }} le {{ comment.createdAt|date('d/m/Y H:i:s') }}</p>
+                    <p class="text-muted">Posté par {{ comment.createdBy.firstName }} le {{ comment.createdAt|date('d/m/Y H:i:s') }}</p>
 
                     {% if app.user and (is_granted('ROLE_ADMIN') or comment.createdBy == app.user) %}
-                        <a href="{{ path('comment_edit', { 'id': comment.id }) }}" class="btn btn-primary">Modifier</a>
-                        <form action="{{ path('comment_delete', { 'id': comment.id }) }}" method="post" class="d-inline">
-                            <input type="hidden" name="_method" value="DELETE">
-                            <button type="submit" class="btn btn-danger">Supprimer</button>
-                        </form>
+                        <div class="d-flex justify-content-between">
+                            <a href="{{ path('comment_edit', { 'id': comment.id }) }}" class="btn btn-outline-primary">Modifier</a>
+                            <form action="{{ path('comment_delete', { 'id': comment.id }) }}" method="post" class="d-inline">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button type="submit" class="btn btn-outline-danger">Supprimer</button>
+                            </form>
+                        </div>
                     {% endif %}
                 </div>
             </div>
         {% else %}
-            <p>Aucun commentaire.</p>
+            <p class="text-muted">Aucun commentaire.</p>
         {% endfor %}
 
-        <a href="{{ path('post_index') }}" class="btn btn-secondary">Retour à la liste</a>
+        <a href="{{ path('post_index') }}" class="btn btn-secondary mt-3">Retour à la liste</a>
     </div>
 {% endblock %}

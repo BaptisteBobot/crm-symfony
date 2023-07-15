@@ -4,10 +4,20 @@
 
 {% block content %}
 <div class="container">
-    <h1>Modifier un membre</h1>
-
-    {{ include('user/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
-
-    <a href="{{ path('user_index') }}" class="btn btn-secondary">Retour à la liste</a>
+    <div class="row">
+        <div class="col-md-12 d-flex justify-content-between align-items-center">
+            <a href="{{ path('user_index') }}" class="btn btn-secondary mb-3"><i class="fa fa-arrow-left" aria-hidden="true"></i> Retour à la liste</a>
+            <h2 class="text-center flex-grow-1 mb-3">Modifier un membre</h2>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg p-3 mb-5 bg-white rounded">
+                <div class="card-body">
+                    {{ include('user/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

@@ -1,4 +1,8 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_start(form, {'attr': {'class': 'p-3 bg-light rounded-3'}}) }}
+    <div class="mb-3">
+        {{ form_label(form.name, 'Category Name', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.name) }}
+    </div>
+    <button type="submit" class="btn btn-primary mb-3">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

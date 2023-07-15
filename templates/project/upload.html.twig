@@ -1,16 +1,74 @@
-{# upload.html.twig #}
 {% extends 'base.html.twig' %}
 
+{% block title %}Téléchargement du déploiement{% endblock %}
+
 {% block content %}
-    <h1>Deployment Upload</h1>
-    {{ form_start(form) }}
-    {{ form_row(form.projectFile) }}
-    {{ form_row(form.projectType, {
-        'attr': {
-            'class': 'custom-select',
-            'placeholder': 'Select Project Type'
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #E8F0FE;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
         }
-    }) }}
-    {{ form_row(form.submit) }}
-    {{ form_end(form) }}
+
+        .upload-container {
+            background-color: #ffffff;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            transition: 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            max-width: 500px;
+        }
+
+        .upload-container:hover {
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+        }
+
+        .upload-container h1 {
+            margin-bottom: 30px;
+        }
+
+        .upload-container button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 17px;
+        }
+
+        .upload-container button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .upload-container select, .upload-container input[type="file"] {
+            margin: 20px 0;
+        }
+    </style>
+
+    <div class="upload-container">
+        <h1><i class="fas fa-cloud-upload-alt"></i>Espace de déploiement</h1>
+
+        {{ form_start(form) }}
+            <div class="form-group">
+                {{ form_label(form.projectFile, 'Choisissez un fichier', {'label_attr': {'class': 'btn btn-primary'}}) }}
+                {{ form_widget(form.projectFile, {'attr': {'class': 'form-control', 'hidden': 'true'}}) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.projectType, 'Choisissez le type de projet') }}
+                {{ form_widget(form.projectType, {'attr': {'class': 'form-select'}}) }}
+            </div>
+            <div class="form-group">
+                {{ form_widget(form.submit, {'attr': {'class': 'btn btn-success'}}) }}
+            </div>
+        {{ form_end(form) }}
+    </div>
 {% endblock %}
