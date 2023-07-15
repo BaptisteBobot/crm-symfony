@@ -1,35 +1,37 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des Posts{% endblock %}
+{% block title %}Liste des Posts
+{% endblock %}
 
 {% block content %}
-<div class="container">
-    <h1>Liste des Posts</h1>
+	<div class="container">
+		<h1>Liste des Posts</h1>
 
-    <a href="{{ path('post_new') }}" class="btn btn-primary mb-3">Créer un nouveau Post</a>
+		<a href="{{ path('post_new') }}" class="btn btn-primary mb-3">Créer un nouveau Post</a>
 
-    <div class="row">
-        {% for post in posts %}
-        <div class="col-md-12">
-            <div class="card mb-4 w-100">
-                <div class="card-body">
-                    <h5 class="card-title">{{ post.category.name }}</h5>
-                    <p class="card-text">{{ post.content }}</p>
-                    <a href="{{ path('post_show', { 'id': post.id }) }}" class="btn btn-primary">Voir plus</a>
-                </div>
-                <div class="card-footer">
-                    {% if app.user and (is_granted('ROLE_ADMIN') or post.createdBy == app.user) %}
-                        <a href="{{ path('post_edit', { 'id': post.id }) }}" class="btn btn-primary">Modifier</a>
-                    {% endif %}
-                    <a href="{{ path('comment_new', { 'post': post.id }) }}" class="btn btn-primary">Ajouter un commentaire</a>
-                </div>
-            </div>
-        </div>
-        {% else %}
-        <div class="col-md-12">
-            <p>Aucun post n'a été trouvé.</p>
-        </div>
-        {% endfor %}
-    </div>
-</div>
+		<div class="row">
+			{% for post in posts %}
+				<div class="col-md-6 mb-4">
+					<div class="card mb-4 w-100 h-100 shadow-sm">
+						<div class="card-body">
+							<h5 class="card-title">{{ post.category.name }}</h5>
+							<p class="card-text text-muted">{{ post.content|slice(0,100) }}{{ post.content|length > 100 ? '...' }}</p>
+						</div>
+						<div class="card-footer bg-white">
+							<a href="{{ path('post_show', { 'id': post.id }) }}" class="btn btn-primary">Voir tous les commentaires</a>
+
+							{% if app.user and (is_granted('ROLE_ADMIN') or post.createdBy == app.user) %}
+								<a href="{{ path('post_edit', { 'id': post.id }) }}" class="btn btn-outline-primary">Modifier</a>
+							{% endif %}
+							<a href="{{ path('comment_new', { 'post': post.id }) }}" class="btn btn-outline-secondary">Ajouter un commentaire</a>
+						</div>
+					</div>
+				</div>
+			{% else %}
+				<div class="col-md-12">
+					<p class="text-muted">Aucun post n'a été trouvé.</p>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
 {% endblock %}

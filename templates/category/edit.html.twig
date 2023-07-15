@@ -1,11 +1,20 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-    <h1>Edit Category</h1>
-
-    {{ include('category/_form.html.twig', {'button_label': 'Update', 'form': form}) }}
-
-    <a href="{{ path('category_index') }}">back to list</a>
-
-    {{ include('category/_delete_form.html.twig') }}
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+            <h1 class="my-4">Modifier une Catégorie</h1>
+            <a href="{{ path('category_index') }}" class="btn btn-outline-secondary mt-3">Retour à la liste</a>
+        </div>
+        <div class="card shadow-lg">
+            <div class="card-body">
+                {{ include('category/_form.html.twig', {'button_label': 'Mettre à jour', 'form': form}) }}
+                <hr>
+                {# le bouton delete ne fonctionne pas pour le moment à voir plus tard  #}
+                {# <div class="text-center">
+                    {{ include('category/_delete_form.html.twig') }}
+                </div> #}
+            </div>
+        </div>
+    </div>
 {% endblock %}
