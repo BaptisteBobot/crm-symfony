@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+    <h1>Dashboard</h1>
+
+    <p>Total users: {{ totalUsers }}</p>
+
+    <h2>Latest Activities</h2>
+    <ul>
+    {% for activity in latestActivities %}
+        <li>{{ activity.name }} ({{ activity.startDate|date('Y-m-d') }})</li>
+    {% endfor %}
+    </ul>
+
+    <h2>User Registrations by Month</h2>
+    <canvas id="userChart"></canvas>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+    let userCounts = {{ monthlyUserCounts|json_encode|raw }};
+
+    let ctx = document.getElementById('userChart').getContext('2d');
+    let chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: userCounts.map(u => u.month),
+            datasets: [{
+                label: '# of Users',
+                data: userCounts.map(u => u.count),
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+    
+    </script>
+
+{% endblock %}
+

@@ -55,7 +55,49 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
         $this->save($user, true);
     }
+    public function getMonthName(int $monthNumber): string
+    {
+        setlocale(LC_TIME, 'fr_FR.utf8', 'fra'); 
+        return strftime('%B', mktime(0, 0, 0, $monthNumber));
+    }
 
+    public function findMonthlyUserCountForCurrentYear(): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+    
+        $sql = '
+            SELECT MONTH(u.created_at) as month, COUNT(u.id) as count 
+            FROM `user` u 
+            WHERE YEAR(u.created_at) = :year
+            GROUP BY month
+            ORDER BY month ASC
+        ';
+    
+        $stmt = $conn->executeQuery($sql, ['year' => date('Y')]);
+        $userCountsByMonth = $stmt->fetchAllAssociative();
+    
+        $results = [
+            'janvier' => 0, 'février' => 0, 'mars' => 0, 'avril' => 0, 
+            'mai' => 0, 'juin' => 0, 'juillet' => 0, 'août' => 0, 
+            'septembre' => 0, 'octobre' => 0, 'novembre' => 0, 'décembre' => 0,
+        ];
+    
+        foreach ($userCountsByMonth as $userCount) {
+            $monthName = $this->getMonthName($userCount['month']);
+            $results[$monthName] = $userCount['count'];
+        }
+    
+        $finalResults = [];
+        foreach ($results as $month => $count) {
+            $finalResults[] = ['month' => $month, 'count' => $count];
+        }
+    
+        return $finalResults;
+    }
+    
+    
+    
+    
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */

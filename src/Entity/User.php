@@ -56,6 +56,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Expense::class)]
     private Collection $expenses;
 
+    #[ORM\Column(type: 'datetime')]
+    private \DateTimeInterface $createdAt;
+    
     public function __construct()
     {
         $this->expenses = new ArrayCollection();
@@ -63,6 +66,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->categories = new ArrayCollection();
         $this->posts = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->createdAt = new \DateTime();
     }
 
     /**
@@ -73,6 +77,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->activityUsers;
     }
 
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
     public function addActivityUser(ActivityUser $activityUser): self
     {
         if (!$this->activityUsers->contains($activityUser)) {

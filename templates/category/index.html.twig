@@ -1,29 +1,32 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-    <h1>Categories</h1>
+    <div class="container">
+        <h1 class="mb-4">Categories</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for category in categories %}
-            <tr>
-                <td>{{ category.id }}</td>
-                <td>{{ category.name }}</td>
-                <td>
-                    <a href="{{ path('category_show', {'id': category.id}) }}" class="btn btn-primary btn-sm">show</a>
-                    <a href="{{ path('category_edit', {'id': category.id}) }}" class="btn btn-secondary btn-sm">edit</a>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for category in categories %}
+                <div class="col">
+                    <div class="card h-100 shadow">
+                        <div class="card-header bg-primary text-white">
+                            <i class="fas fa-tag"></i> {{ category.name }}
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Category ID: {{ category.id }}</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{{ path('category_show', {'id': category.id}) }}" class="btn btn-outline-primary btn-sm me-2">Show</a>
+                            <a href="{{ path('category_edit', {'id': category.id}) }}" class="btn btn-outline-secondary btn-sm">Edit</a>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <p class="text-center">No categories found</p>
+            {% endfor %}
+        </div>
 
-    <a href="{{ path('category_new') }}" class="btn btn-success">Create new</a>
+        <div class="d-flex justify-content-center mt-3">
+            <a href="{{ path('category_new') }}" class="btn btn-success">Create new</a>
+        </div>
+    </div>
 {% endblock %}

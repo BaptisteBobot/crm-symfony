@@ -3,14 +3,25 @@
 {% block title %}Modifier le Post{% endblock %}
 
 {% block content %}
-    <h1>Modifier le Post</h1>
+    <div class="container">
+        <h1 class="mb-4">Modifier le Post</h1>
 
-    {% if app.user and (is_granted('ROLE_ADMIN') or post.createdBy == app.user) %}
-        {{ form_start(form) }}
-            {{ form_widget(form) }}
-            <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
-        {{ form_end(form) }}
-    {% else %}
-        <div class="alert alert-danger">Vous n'êtes pas autorisé à modifier ce post.</div>
-    {% endif %}
+        {% if app.user and (is_granted('ROLE_ADMIN') or post.createdBy == app.user) %}
+            {{ form_start(form, {'attr': {'class': 'bg-white p-4 rounded shadow'}}) }}
+                <div class="mb-3">
+                    {{ form_label(form.content, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.content, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.content) }}
+                </div>
+                <div class="mb-3">
+                    {{ form_label(form.category, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.category, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.category) }}
+                </div>
+                <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+            {{ form_end(form) }}
+        {% else %}
+            <div class="alert alert-danger">Vous n'êtes pas autorisé à modifier ce post.</div>
+        {% endif %}
+    </div>
 {% endblock %}
