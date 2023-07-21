@@ -194,14 +194,14 @@ body {
 				</div>
 				<div class="login__field">
 					<i class="login__icon fas fa-lock"></i>
-					{{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'login__input', 'placeholder': 'Password'}}) }}
+					{{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'login__input', 'placeholder': 'Mot de passe'}}) }}
 				</div>
 				<div class="login__field form-check">
 					{{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input'}}) }}
 					{{ form_label(registrationForm.agreeTerms, "J'accepte les termes et conditions", {'attr': {'class': 'form-check-label'}}) }}
 				</div>
 				<button class="button login__submit">
-					<span class="button__text">Register</span>
+					<span class="button__text">Enregistrement</span>
 					<i class="button__icon fas fa-chevron-right"></i>
 				</button>	
 				    {{ form_end(registrationForm) }}			

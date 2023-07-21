@@ -1,49 +1,104 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Dashboard{% endblock %}
+{% block title %}Tableau de bord{% endblock %}
 
 {% block content %}
-    <h1>Dashboard</h1>
+    <div class="dashboard-container">
+        <h1 class="dashboard-title">Tableau de bord</h1>
 
-    <p>Total users: {{ totalUsers }}</p>
+        <div class="total-users">
+            <p class="total-users-text">Utilisateurs totaux : {{ totalUsers }}</p>
+        </div>
 
-    <h2>Latest Activities</h2>
-    <ul>
-    {% for activity in latestActivities %}
-        <li>{{ activity.name }} ({{ activity.startDate|date('Y-m-d') }})</li>
-    {% endfor %}
-    </ul>
+        <div class="latest-activities">
+            <h2 class="latest-activities-title">Dernières activités</h2>
+            <ul class="activities-list">
+                {% for activity in latestActivities %}
+                <li class="activity-item">{{ activity.name }} ({{ activity.startDate|date('Y-m-d') }})</li>
+                {% endfor %}
+            </ul>
+        </div>
 
-    <h2>User Registrations by Month</h2>
-    <canvas id="userChart"></canvas>
+        <div class="user-registrations">
+            <h2 class="user-registrations-title">Inscriptions d'utilisateurs par mois</h2>
+            <canvas id="userChart" class="user-chart"></canvas>
+        </div>
+
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            let userCounts = {{ monthlyUserCounts|json_encode|raw }};
 
-    <script>
-    let userCounts = {{ monthlyUserCounts|json_encode|raw }};
-
-    let ctx = document.getElementById('userChart').getContext('2d');
-    let chart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: userCounts.map(u => u.month),
-            datasets: [{
-                label: '# of Users',
-                data: userCounts.map(u => u.count),
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
+            let ctx = document.getElementById('userChart').getContext('2d');
+            let chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: userCounts.map(u => u.month),
+                    datasets: [{
+                        label: '# d\'utilisateurs',
+                        data: userCounts.map(u => u.count),
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
                 }
-            }
+            });
+        </script>
+    </div>
+
+    <style>
+        /* Styles pour améliorer le design */
+        .dashboard-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-    });
-    
-    </script>
 
+        .dashboard-title {
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .total-users-text {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .latest-activities-title {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .activities-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .activity-item {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .user-registrations-title {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .user-chart {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+    </style>
 {% endblock %}
-

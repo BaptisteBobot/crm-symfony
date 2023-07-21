@@ -51,7 +51,7 @@ class ProjectController extends AbstractController
             // Après le téléchargement, envoyez-le à GitHub
 
             $client = new Client();
-            $client->authenticate('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', null, Client::AUTH_ACCESS_TOKEN);
+            $client->authenticate('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', null, Client::AUTH_ACCESS_TOKEN);
 
             $filePath = $deployDirectory . '/' . $filename;
 

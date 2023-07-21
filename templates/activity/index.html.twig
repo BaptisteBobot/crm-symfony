@@ -51,7 +51,7 @@
                             </div>
                             <div class="btn-action-group">
                                 <a href="{{ path('activity_edit', {'id': activity.id}) }}" class="btn btn-primary btn-action mb-1">Modifier</a>
-                                <a href="{{ path('activity_delete', {'id': activity.id}) }}" class="btn btn-danger btn-action mb-1">Supprimer</a>
+                                {# <a href="{{ path('activity_delete', {'id': activity.id}) }}" class="btn btn-danger btn-action mb-1">Supprimer</a> #}
                                 <a href="{{ path('activity_user_register', {'id': activity.id}) }}" class="btn btn-primary btn-action mb-1">S'inscrire</a>
                                 <a href="{{ path('activity_user_unregister', {'id': activity.id}) }}" class="btn btn-primary btn-action mb-1">Se désinscrire</a>
                                 <span id="status-{{ activity.id }}"></span>
